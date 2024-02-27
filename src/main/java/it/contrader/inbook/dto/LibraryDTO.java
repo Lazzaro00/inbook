@@ -1,9 +1,6 @@
 package it.contrader.inbook.dto;
 
 import it.contrader.inbook.model.User;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

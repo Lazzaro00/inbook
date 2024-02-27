@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import java.util.Set;
 
@@ -29,6 +28,6 @@ public class Library {
 
     @ManyToMany
     @JoinTable(name = "user_library", joinColumns = @JoinColumn(name = "library_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private User user;
+    private Set<User> user;
 
 }
