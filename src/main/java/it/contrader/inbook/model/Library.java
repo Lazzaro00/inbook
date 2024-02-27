@@ -1,11 +1,12 @@
 package it.contrader.inbook.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+
 import java.util.Set;
 
 @Entity
@@ -13,19 +14,21 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Library {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(unique = true)
-    private String email;
-
-    private String password;
+    private String name;
+    private String address;
+    private String nation;
+    private String province;
+    private String city;
+    private String description;
 
     @ManyToMany
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="role_id"))
-    private Set<Roles> roles;
+    @JoinTable(name = "user_library", joinColumns = @JoinColumn(name = "library_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private User user;
 
 }
