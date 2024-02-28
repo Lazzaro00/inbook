@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Roles {
+public class Role {
 
     public enum ERole {
         ROLE_USER,

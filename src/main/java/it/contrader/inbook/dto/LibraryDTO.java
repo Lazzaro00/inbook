@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import java.util.Set;
 
 
 @Data
@@ -24,6 +25,6 @@ public class LibraryDTO {
     private String city;
     private String description;
 
-    private UserDTO user;
+    private Set<UserDTO> admins;
 
 }

@@ -9,5 +9,6 @@ public interface Converter<Entity,DTO> {
     public DTO toDTO(Entity entity);
 
     public List<Entity> toListEntity(List<DTO> listDto);
+
     public List<DTO> toListDTO(List<Entity> listEntity);
 }
