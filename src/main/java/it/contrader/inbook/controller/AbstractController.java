@@ -7,7 +7,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 public class AbstractController<DTO> implements Controller<DTO>{
 
@@ -28,13 +31,13 @@ public class AbstractController<DTO> implements Controller<DTO>{
 
     @PostMapping("/insert")
     @Override
-    public ResponseEntity<DTO> insert(@RequestParam("dto") DTO dto){
+    public ResponseEntity<DTO> insert(@RequestBody @Validated DTO dto){
         return new ResponseEntity<>(serviceDTO.save(dto),HttpStatus.OK);
     }
 
     @PutMapping("/update")
     @Override
-    public ResponseEntity<DTO> update(@RequestParam("dto") DTO dto){
+    public ResponseEntity<DTO> update(@RequestBody @Validated DTO dto){
         return new ResponseEntity<>(serviceDTO.save(dto),HttpStatus.OK);
     }
 

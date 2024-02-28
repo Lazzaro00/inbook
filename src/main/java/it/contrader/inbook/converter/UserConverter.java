@@ -1,5 +1,6 @@
 package it.contrader.inbook.converter;
 
+import it.contrader.inbook.dto.LoggedDTO;
 import it.contrader.inbook.dto.UserDTO;
 import it.contrader.inbook.model.Role;
 import it.contrader.inbook.model.User;
@@ -48,6 +49,16 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
                 .password(user.getPassword())
                 .usertype(roleToUserType(user.getRoles()))
                 .build():null;
+    }
+
+
+    public LoggedDTO toLoggedDTO(UserDTO userDTO){
+        return userDTO != null ?
+                LoggedDTO.builder()
+                        .email(userDTO.getEmail())
+                        .usertype(userDTO.getUsertype())
+                        .build()
+                :null;
     }
 
 
