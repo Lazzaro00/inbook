@@ -23,4 +23,17 @@ public class UserService extends AbstractService<User, UserDTO>{
         }
         throw new RuntimeException("La password non è corretta");
     }
+
+
+    public LoggedDTO registration(UserDTO userDTO){
+        try {
+            User user = userRepository.save(userConverter.toEntity(userDTO));
+            return userConverter.toLoggedDTO(userConverter.toDTO(user));
+        }
+        catch (Exception ex){
+            throw new RuntimeException("Email già esistente");
+
+        }
+
+    }
 }
