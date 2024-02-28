@@ -2,6 +2,7 @@ package it.contrader.inbook.converter;
 
 import it.contrader.inbook.dto.AnagraphicDTO;
 import it.contrader.inbook.dto.BookDTO;
+import it.contrader.inbook.exception.InvalidGenderException;
 import it.contrader.inbook.model.Anagraphic;
 import it.contrader.inbook.model.Book;
 
@@ -15,10 +16,7 @@ public class AnagraphicConverter extends AbstractConverter<Anagraphic, Anagraphi
     UserConverter userConverter;
 
     private String genderToString(Anagraphic.Gender gender) {
-        if (gender == null) {
-            return null;
-        }
-        return gender.name();
+        return gender != null ? gender.name() : null;
     }
 
     private Anagraphic.Gender stringToGender(String gender) {
@@ -26,10 +24,9 @@ public class AnagraphicConverter extends AbstractConverter<Anagraphic, Anagraphi
             return null;
         }
         try {
-            return Anagraphic.Gender.valueOf(gender);
-        } catch (IllegalArgumentException ex) {
-            //TODO gestire eccezione
-            return null; // throw new IllegalArgumentException("Invalid gender value");
+            return Anagraphic.Gender.valueOf(gender.toUpperCase());
+        } catch (RuntimeException ex) {
+            throw new InvalidGenderException("Scelta del gender non valida");
         }
     }
 
@@ -48,6 +45,7 @@ public class AnagraphicConverter extends AbstractConverter<Anagraphic, Anagraphi
                 .province(anagraphicDTO.getProvince())
                 .city(anagraphicDTO.getCity())
                 .address((anagraphicDTO.getAddress()))
+                .user(userConverter.toEntity(anagraphicDTO.getUser()))
                 .build(): null;
     }
 
@@ -65,6 +63,7 @@ public class AnagraphicConverter extends AbstractConverter<Anagraphic, Anagraphi
                 .province(anagraphic.getProvince())
                 .city(anagraphic.getCity())
                 .address((anagraphic.getAddress()))
+                .user(userConverter.toDTO(anagraphic.getUser()))
                 .build(): null;
     }
 }

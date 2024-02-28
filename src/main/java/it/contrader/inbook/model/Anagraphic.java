@@ -14,8 +14,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Anagraphic {
     public enum Gender{
-        Male,
-        Female
+        MALE,
+        FEMALE
     };
 
 

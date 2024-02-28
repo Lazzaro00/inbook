@@ -22,7 +22,7 @@ public class AuthService {
     public  Set<Role> createRoles(String rolesString) {
         if (rolesString != null && !rolesString.isEmpty()) {
             Set<Role> set = new HashSet<>();
-                if (rolesString.equalsIgnoreCase("ROLE_ADMIN")) {
+                if (rolesString.equalsIgnoreCase("ADMIN")) {
                     set.add(roleRepository.findByRole(Role.ERole.ROLE_ADMIN)
                             .orElseGet(() ->{
                                         Role role1 = new Role();

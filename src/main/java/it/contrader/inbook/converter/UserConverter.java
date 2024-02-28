@@ -27,9 +27,9 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
     private String roleToUserType(Set<Role> roles){
         String usertype = null;
         if(roles.contains(roleRepository.findByRole(Role.ERole.ROLE_ADMIN).orElseThrow(() ->new RuntimeException("Ruolo non trovato")))) {      //(ERole.ROLE_ADMIN.name().equals(((Role)roles.toArray()[0]).getRole().name())) {
-            usertype = "ROLE_ADMIN";
+            usertype = "ADMIN";
         } else if (roles.contains(roleRepository.findByRole(Role.ERole.ROLE_USER).orElseThrow(() ->new RuntimeException("Ruolo non trovato")))) {
-            usertype = "ROLE_USER";
+            usertype = "USER";
         }
         return  usertype;
     }
@@ -40,7 +40,7 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
                 .id(userDTO.getId())
                 .email(userDTO.getEmail())
                 .password(userDTO.getPassword())
-                .roles(userTypeToRole(userDTO.getUsertype()))
+                .roles(userDTO.getUsertype()!=null? userTypeToRole(userDTO.getUsertype()):null)
                 .build():null;
     }
 

@@ -20,7 +20,7 @@ public class AbstractController<DTO> implements Controller<DTO>{
     @GetMapping("/getall")
     @Override
     public ResponseEntity<Page<DTO>> getAll(@RequestParam("pageSize") int pageSize, @RequestParam("pageNumber") int pageNumber){
-        return new ResponseEntity<>(serviceDTO.getAll(PageRequest.of(pageSize,pageNumber)),HttpStatus.OK);
+        return new ResponseEntity<>(serviceDTO.getAll(PageRequest.of(pageNumber,pageSize)),HttpStatus.OK);
     }
 
     @GetMapping("/read")
