@@ -11,4 +11,8 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     List<Book> findByCategory(String category);
 
     List<Book> findByPriceGreaterThan(double price);
+
+    List<Book> findBySerialcode(String serialcode);
+
+    List<Book> findByLibrary_Id(long library_Id);
 }
