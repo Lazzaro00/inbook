@@ -23,9 +23,9 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
     private String roleToUserType(Set<Role> roles){
         String usertype = null;
         if(roles.contains(new Role(2L, Role.ERole.ROLE_ADMIN))) {      //(ERole.ROLE_ADMIN.name().equals(((Role)roles.toArray()[0]).getRole().name())) {
-            usertype = "ADMIN";
+            usertype = "ROLE_ADMIN";
         } else if (Role.ERole.ROLE_USER.name().equals(((Role)roles.toArray()[0]).getRole().name())) {
-            usertype = "USER";
+            usertype = "ROLE_USER";
         }
         return  usertype;
     }
