@@ -27,7 +27,7 @@ public class Library {
     private String description;
 
     @ManyToMany
-    @JoinTable(name = "user_library", joinColumns = @JoinColumn(name = "library_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> user;
+    @JoinTable(name = "admin_library", joinColumns = @JoinColumn(name = "library_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> admins;
 
 }
