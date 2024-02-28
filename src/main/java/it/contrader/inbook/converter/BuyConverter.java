@@ -6,8 +6,9 @@ import it.contrader.inbook.model.Book;
 
 import it.contrader.inbook.model.Buy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class BuyConverter extends AbstractConverter<Buy, BuyDTO> {
 
     @Autowired

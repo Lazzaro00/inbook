@@ -4,8 +4,9 @@ import it.contrader.inbook.dto.BookDTO;
 import it.contrader.inbook.model.Book;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class BookConverter extends AbstractConverter<Book, BookDTO> {
 
     @Autowired

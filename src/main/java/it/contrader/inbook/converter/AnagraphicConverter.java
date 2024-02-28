@@ -6,8 +6,9 @@ import it.contrader.inbook.model.Anagraphic;
 import it.contrader.inbook.model.Book;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class AnagraphicConverter extends AbstractConverter<Anagraphic, AnagraphicDTO> {
 
     @Autowired

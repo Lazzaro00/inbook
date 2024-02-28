@@ -21,7 +21,7 @@ public class Anagraphic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Lob
     private byte[] images;

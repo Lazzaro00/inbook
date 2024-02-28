@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class BuyDTO {
 
-    private long id;
+    private Long id;
 
     private UserDTO user;
 

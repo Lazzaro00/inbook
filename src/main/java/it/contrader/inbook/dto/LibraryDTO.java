@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class LibraryDTO {
 
-    private long id;
+    private Long id;
 
     private String name;
     private String address;

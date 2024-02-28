@@ -25,7 +25,7 @@ public class AbstractController<DTO> implements Controller<DTO>{
 
     @GetMapping("/read")
     @Override
-    public ResponseEntity<DTO> read(@RequestParam("id") long id){
+    public ResponseEntity<DTO> read(@RequestParam("id") Long id){
         return new ResponseEntity<>(serviceDTO.read(id),HttpStatus.OK);
     }
 
@@ -43,7 +43,7 @@ public class AbstractController<DTO> implements Controller<DTO>{
 
     @DeleteMapping("/delete")
     @Override
-    public void delete(@RequestParam("id") long id){
+    public void delete(@RequestParam("id") Long id){
         serviceDTO.delete(id);
     }
 }

@@ -33,7 +33,7 @@ public class UserController extends AbstractController<UserDTO>{
         return new ResponseEntity<LoggedDTO>(userService.registration(userDTO), HttpStatus.OK);
     }
 
-    @PostMapping("/registration")
+    @PostMapping("/registrationAnag")
     public ResponseEntity<AnagraphicDTO> registrationAnag(@RequestBody @Validated AnagraphicDTO AnagraphicDTO){
         return new ResponseEntity<AnagraphicDTO>(anagraphicService.save(AnagraphicDTO), HttpStatus.OK);
     }

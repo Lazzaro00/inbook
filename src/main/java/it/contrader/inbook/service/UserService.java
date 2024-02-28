@@ -5,9 +5,15 @@ import it.contrader.inbook.dto.LoggedDTO;
 import it.contrader.inbook.dto.LoginDTO;
 import it.contrader.inbook.dto.UserDTO;
 import it.contrader.inbook.model.User;
+import it.contrader.inbook.repository.RoleRepository;
 import it.contrader.inbook.repository.UserRepository;
+import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+
+@Service
 public class UserService extends AbstractService<User, UserDTO>{
 
     @Autowired
@@ -15,6 +21,8 @@ public class UserService extends AbstractService<User, UserDTO>{
 
     @Autowired
     private UserConverter userConverter;
+
+
 
     public LoggedDTO login(LoginDTO loginDTO){
         User user = userRepository.findByEmail(loginDTO.getEmail()).orElseThrow(() -> new RuntimeException("L'utente non esiste"));
@@ -25,14 +33,13 @@ public class UserService extends AbstractService<User, UserDTO>{
     }
 
 
+
     public LoggedDTO registration(UserDTO userDTO){
         try {
-            User user = userRepository.save(userConverter.toEntity(userDTO));
-            return userConverter.toLoggedDTO(userConverter.toDTO(user));
+            return userConverter.toLoggedDTO(userConverter.toDTO(userRepository.save(userConverter.toEntity(userDTO))));
         }
         catch (Exception ex){
-            throw new RuntimeException("Email già esistente");
-
+            throw new RuntimeException("Email già in uso");
         }
 
     }

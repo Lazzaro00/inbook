@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class AnagraphicDTO {
 
 
-    private long id;
+    private Long id;
 
     @Lob
     private byte[] images;

@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public abstract class AbstractService<Entity,DTO> implements ServiceDTO<DTO> {
 
     @Autowired
@@ -17,24 +19,24 @@ public abstract class AbstractService<Entity,DTO> implements ServiceDTO<DTO> {
     private JpaRepository<Entity, Long> repository;
 
 
-    @Autowired
+    @Override
     public Page<DTO> getAll(Pageable pageable){
         return converter.toDTOPage(converter.toListDTO(repository.findAll()), pageable.getPageNumber(),  pageable.getPageSize());
     }
 
-    @Autowired
-    public DTO read(long id){
+    @Override
+    public DTO read(Long id){
         return converter.toDTO(repository.findById(id).get()); //todo inserire eccezione
     }
 
-    @Autowired
+    @Override
     public DTO save(DTO dto){
         return converter.toDTO(repository.save(converter.toEntity(dto)));
     }
 
 
-    @Autowired
-    public void delete(long id){
+    @Override
+    public void delete(Long id){
         repository.deleteById(id);
     }
 

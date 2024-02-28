@@ -4,10 +4,12 @@ import it.contrader.inbook.dto.UserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public abstract class AbstractConverter<Entity, DTO> implements Converter<Entity, DTO> {
 
     public List<Entity> toListEntity(List<DTO> dtolist) {

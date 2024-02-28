@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookDTO {
-    private long id;
+    private Long id;
 
     @Lob
     private List<byte[]> images;

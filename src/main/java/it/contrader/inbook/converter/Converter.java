@@ -1,9 +1,11 @@
 package it.contrader.inbook.converter;
 
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public interface Converter<Entity,DTO> {
 
     public Entity toEntity(DTO dto);

@@ -5,11 +5,13 @@ import it.contrader.inbook.dto.UserDTO;
 import it.contrader.inbook.model.Library;
 import it.contrader.inbook.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Component
 public class LibraryConverter extends AbstractConverter<Library, LibraryDTO> {
 
     @Autowired
