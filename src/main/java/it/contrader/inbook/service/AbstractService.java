@@ -2,6 +2,8 @@ package it.contrader.inbook.service;
 
 import it.contrader.inbook.converter.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -16,8 +18,8 @@ public abstract class AbstractService<Entity,DTO> implements ServiceDTO<DTO> {
 
 
     @Autowired
-    public List<DTO> getAll(){
-        return converter.toListDTO(repository.findAll());
+    public Page<DTO> getAll(Pageable pageable){
+        return converter.toDTOPage(converter.toListDTO(repository.findAll()), pageable.getPageNumber(),  pageable.getPageSize());
     }
 
     @Autowired

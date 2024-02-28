@@ -1,5 +1,7 @@
 package it.contrader.inbook.converter;
 
+import org.springframework.data.domain.Page;
+
 import java.util.List;
 
 public interface Converter<Entity,DTO> {
@@ -11,4 +13,6 @@ public interface Converter<Entity,DTO> {
     public List<Entity> toListEntity(List<DTO> listDto);
 
     public List<DTO> toListDTO(List<Entity> listEntity);
+
+    public Page<DTO> toDTOPage(List<DTO> DTOList, int pageNumber, int pageSize);
 }

@@ -1,10 +1,13 @@
 package it.contrader.inbook.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 
 public interface ServiceDTO<DTO> {
 
-    public List<DTO> getAll();
+    public Page<DTO> getAll(Pageable pageable);
 
     public DTO read(long id);
 
