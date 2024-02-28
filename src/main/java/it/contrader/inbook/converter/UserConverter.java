@@ -4,6 +4,7 @@ import it.contrader.inbook.dto.LoggedDTO;
 import it.contrader.inbook.dto.UserDTO;
 import it.contrader.inbook.model.Role;
 import it.contrader.inbook.model.User;
+import it.contrader.inbook.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,9 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
     @Autowired
     AuthService authService;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
 
     private Set<Role> userTypeToRole(String usertype){
         return authService.createRoles(usertype);
@@ -22,9 +26,9 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
 
     private String roleToUserType(Set<Role> roles){
         String usertype = null;
-        if(roles.contains(new Role(2L, Role.ERole.ROLE_ADMIN))) {      //(ERole.ROLE_ADMIN.name().equals(((Role)roles.toArray()[0]).getRole().name())) {
+        if(roles.contains(roleRepository.findByRole(Role.ERole.ROLE_ADMIN).orElseThrow(() ->new RuntimeException("Ruolo non trovato")))) {      //(ERole.ROLE_ADMIN.name().equals(((Role)roles.toArray()[0]).getRole().name())) {
             usertype = "ROLE_ADMIN";
-        } else if (Role.ERole.ROLE_USER.name().equals(((Role)roles.toArray()[0]).getRole().name())) {
+        } else if (roles.contains(roleRepository.findByRole(Role.ERole.ROLE_USER).orElseThrow(() ->new RuntimeException("Ruolo non trovato")))) {
             usertype = "ROLE_USER";
         }
         return  usertype;
