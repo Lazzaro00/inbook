@@ -3,6 +3,11 @@ package it.contrader.inbook.service;
 import it.contrader.inbook.converter.LibraryConverter;
 import it.contrader.inbook.dto.LibraryDTO;
 import it.contrader.inbook.model.Library;
+import it.contrader.inbook.repository.LibraryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class LibraryService extends AbstractService<Library, LibraryDTO>{

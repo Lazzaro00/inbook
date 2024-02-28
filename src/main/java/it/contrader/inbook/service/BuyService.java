@@ -5,6 +5,7 @@ import it.contrader.inbook.dto.BuyDTO;
 import it.contrader.inbook.model.Buy;
 import it.contrader.inbook.repository.BuyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
