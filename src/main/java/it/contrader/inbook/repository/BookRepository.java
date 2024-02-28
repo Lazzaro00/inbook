@@ -15,5 +15,4 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     List<Book> findBySerialcode(String serialcode);
 
     List<Book> findByLibrary_Id(long library_Id);
-
 }
