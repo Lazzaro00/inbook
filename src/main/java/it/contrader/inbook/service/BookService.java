@@ -22,4 +22,20 @@ public class BookService extends AbstractService<Book, BookDTO> {
     public List<BookDTO> getByName(String name){
         return converter.toListDTO(repository.findByName(name));
     }
+
+    public List<BookDTO> getByCategory(String category){
+        return converter.toListDTO(repository.findByCategory(category));
+    }
+
+    public List<BookDTO> getByPrice(double price){
+        return converter.toListDTO(repository.findByPriceGreaterThan(price));
+    }
+
+    public List<BookDTO> getBySerialcode(String serialcode){
+        return converter.toListDTO(repository.findBySerialcode(serialcode));
+    }
+
+    public List<BookDTO> getByLibrary(long library_Id){
+        return converter.toListDTO(repository.findByLibrary_Id(library_Id));
+    }
 }
