@@ -1,7 +1,10 @@
 package it.contrader.inbook.repository;
 
-import it.contrader.inbook.model.Roles;
+import it.contrader.inbook.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RolesRepository extends JpaRepository<Roles,Long> {
+import java.util.Optional;
+
+public interface RolesRepository extends JpaRepository<Role,Long> {
+    Optional<Role> findByRole(Role.ERole role);
 }
