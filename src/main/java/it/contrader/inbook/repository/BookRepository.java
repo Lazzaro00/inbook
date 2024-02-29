@@ -14,5 +14,17 @@ public interface BookRepository extends JpaRepository<Book,Long> {
 
     List<Book> findBySerialcode(String serialcode);
 
-    List<Book> findByLibrary_Id(long library_Id);
+    List<Book> findByLibrary_Id(Long library_Id);
+
+    Long countByCategory(String category);
+
+    Long countByPriceGreaterThan(double price);
+
+    Long countBySerialcode(String serialcode);
+
+    Long countByLibrary_Id(Long library_Id);
+
+    Long countByLibrary_IdAndCategory(Long library_Id, String category);
+
+    Long countByLibrary_IdAndSerialcode(Long library_Id, String serialcode);
 }
