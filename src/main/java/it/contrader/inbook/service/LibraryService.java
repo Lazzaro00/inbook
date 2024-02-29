@@ -45,4 +45,8 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
         }
 
     }
+
+    public List<LibraryDTO> getByAdminsNotNull(){
+        return converter.toListDTO(repository.findByAdminsNotNull());
+    }
 }

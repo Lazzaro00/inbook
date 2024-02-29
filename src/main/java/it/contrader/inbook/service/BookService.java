@@ -54,4 +54,34 @@ public class BookService extends AbstractService<Book, BookDTO> {
 
         repository.deleteById(id);
     }
+
+    public Long countByCategory(String category){
+        return repository.countByCategory(category);
+    }
+
+    public Long countByPrice(double price){
+        return repository.countByPriceGreaterThan(price);
+    }
+
+    public Long countBySerialcode(String serialcode){
+        return repository.countBySerialcode(serialcode);
+    }
+
+    public Long countByLibrary_Id(Long library_Id){
+        return repository.countByLibrary_Id(library_Id);
+    }
+
+    public Long countByLibrary_IdAndCategory(Long library_Id, String category){
+        return repository.countByLibrary_IdAndCategory(library_Id, category);
+    }
+
+    public Long countByLibrary_IdAndSerialcode(Long library_Id, String serialcode){
+        return repository.countByLibrary_IdAndSerialcode(library_Id, serialcode);
+    }
+
+    public List<BookDTO> getByLibraryNotNull(){
+        return converter.toListDTO(repository.findByLibraryNotNull());
+    }
+
+
 }

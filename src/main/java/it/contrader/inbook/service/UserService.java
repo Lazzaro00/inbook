@@ -1,5 +1,6 @@
 package it.contrader.inbook.service;
 
+import it.contrader.inbook.converter.AuthService;
 import it.contrader.inbook.converter.UserConverter;
 import it.contrader.inbook.dto.*;
 import it.contrader.inbook.exception.EmailAlreadyExistException;
@@ -17,6 +18,9 @@ public class UserService extends AbstractService<User, UserDTO>{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private UserConverter userConverter;
@@ -77,5 +81,17 @@ public class UserService extends AbstractService<User, UserDTO>{
         }
 
         userRepository.deleteById(id);
+    }
+
+    public Long countByAdmins(){
+        return userRepository.countByRoles(authService.createRoles("ADMIN"));
+    }
+
+    public Long countByUsers(){
+        return userRepository.countByRoles(authService.createRoles("USER"));
+    }
+
+    public List<UserDTO> getByUsertype(String usertype){
+        return userConverter.toListDTO(userRepository.findByRoles(authService.createRoles(usertype)));
     }
 }
