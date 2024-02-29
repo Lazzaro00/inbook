@@ -4,17 +4,12 @@ import it.contrader.inbook.converter.UserConverter;
 import it.contrader.inbook.dto.*;
 import it.contrader.inbook.exception.EmailAlreadyExistException;
 import it.contrader.inbook.exception.PasswordIncorrectException;
-import it.contrader.inbook.exception.UserNotExistException;
-import it.contrader.inbook.model.Anagraphic;
+import it.contrader.inbook.exception.NotExistException;
 import it.contrader.inbook.model.User;
-import it.contrader.inbook.repository.RoleRepository;
 import it.contrader.inbook.repository.UserRepository;
-import lombok.AllArgsConstructor;
-import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -38,7 +33,7 @@ public class UserService extends AbstractService<User, UserDTO>{
 
 
     public LoggedDTO login(LoginDTO loginDTO){
-        User user = userRepository.findByEmail(loginDTO.getEmail()).orElseThrow(() -> new UserNotExistException("User not exist!"));
+        User user = userRepository.findByEmail(loginDTO.getEmail()).orElseThrow(() -> new NotExistException("User not exist!"));
         if(loginDTO.getPassword().equals(user.getPassword())){
             return userConverter.toLoggedDTO(userConverter.toDTO(user));
         }

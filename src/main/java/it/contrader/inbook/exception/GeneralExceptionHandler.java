@@ -13,7 +13,7 @@ public class GeneralExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler({RoleNotFoundException.class, UserNotExistException.class})
+    @ExceptionHandler({RoleNotFoundException.class, NotExistException.class})
     public ResponseEntity<?> RoleNotFoundExceptionHandler(RuntimeException ex){
         return new ResponseEntity<>(ex.getMessage(),HttpStatus.NOT_FOUND);
     }

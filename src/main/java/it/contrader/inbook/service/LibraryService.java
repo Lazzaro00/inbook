@@ -2,8 +2,8 @@ package it.contrader.inbook.service;
 
 import it.contrader.inbook.converter.LibraryConverter;
 import it.contrader.inbook.dto.*;
+import it.contrader.inbook.exception.NotExistException;
 import it.contrader.inbook.model.Library;
-import it.contrader.inbook.repository.BookRepository;
 import it.contrader.inbook.repository.LibraryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,15 +28,21 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
 
     @Override
     public void delete(Long id){
+        try {
 //        LibraryDTO lTd = converter.toDTO(repository.getById(id));
-        List<BookDTO> bTd = bookService.getByLibrary(id);
+            List<BookDTO> bTd = bookService.getByLibrary(id);
 
-        if(!bTd.isEmpty())
-            for (BookDTO b : bTd){
-                b.setLibrary(null);
-                bookService.save(b);
-            }
+            if (!bTd.isEmpty())
+                for (BookDTO b : bTd) {
+                    b.setLibrary(null);
+                    bookService.save(b);
+                }
 
-        repository.deleteById(id);
+            repository.deleteById(id);
+        }
+        catch (Exception ex){
+            throw  new NotExistException("Is not exist anymore");
+        }
+
     }
 }

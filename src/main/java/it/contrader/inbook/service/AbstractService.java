@@ -1,14 +1,15 @@
 package it.contrader.inbook.service;
 
 import it.contrader.inbook.converter.Converter;
-import it.contrader.inbook.exception.UserNotExistException;
+import it.contrader.inbook.exception.NotExistException;
+import org.hibernate.HibernateException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public abstract class AbstractService<Entity,DTO> implements ServiceDTO<DTO> {
@@ -27,18 +28,28 @@ public abstract class AbstractService<Entity,DTO> implements ServiceDTO<DTO> {
 
     @Override
     public DTO read(Long id){
-        return converter.toDTO(repository.findById(id).orElseThrow(() -> new UserNotExistException("User is not exist!")));
+        return converter.toDTO(repository.findById(id).orElseThrow(() -> new NotExistException("User is not exist!")));
     }
 
     @Override
     public DTO save(DTO dto){
-        return converter.toDTO(repository.save(converter.toEntity(dto)));
+        try {
+            return converter.toDTO(repository.save(converter.toEntity(dto)));
+        }
+        catch(RuntimeException ex){
+            throw new RuntimeException("Error in ssociate element");
+        }
     }
 
 
     @Override
     public void delete(Long id){
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        }
+        catch (Exception ex){
+            throw  new NotExistException("Is not exist anymore");
+        }
     }
 
 
