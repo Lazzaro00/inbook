@@ -2,6 +2,7 @@ package it.contrader.inbook.service;
 
 import it.contrader.inbook.converter.AnagraphicConverter;
 import it.contrader.inbook.dto.AnagraphicDTO;
+import it.contrader.inbook.dto.BookDTO;
 import it.contrader.inbook.exception.InvalidGenderException;
 import it.contrader.inbook.model.Anagraphic;
 import it.contrader.inbook.repository.AnagraphicRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class AnagraphicService extends AbstractService<Anagraphic, AnagraphicDTO> {
@@ -56,5 +58,9 @@ public class AnagraphicService extends AbstractService<Anagraphic, AnagraphicDTO
 
     public Long countByAddress(String address){
         return repository.countByAddress(address);
+    }
+
+    public List<AnagraphicDTO> getByUserNotNull(){
+        return converter.toListDTO(repository.findByUserNotNull());
     }
 }

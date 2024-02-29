@@ -78,4 +78,10 @@ public class BookService extends AbstractService<Book, BookDTO> {
     public Long countByLibrary_IdAndSerialcode(Long library_Id, String serialcode){
         return repository.countByLibrary_IdAndSerialcode(library_Id, serialcode);
     }
+
+    public List<BookDTO> getByLibraryNotNull(){
+        return converter.toListDTO(repository.findByLibraryNotNull());
+    }
+
+
 }

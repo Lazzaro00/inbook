@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface AnagraphicRepository extends JpaRepository<Anagraphic,Long> {
@@ -23,4 +24,6 @@ public interface AnagraphicRepository extends JpaRepository<Anagraphic,Long> {
     Long countByCity(String city);
 
     Long countByAddress(String address);
+
+    List<Anagraphic> findByUserNotNull();
 }

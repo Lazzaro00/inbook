@@ -27,4 +27,6 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     Long countByLibrary_IdAndCategory(Long library_Id, String category);
 
     Long countByLibrary_IdAndSerialcode(Long library_Id, String serialcode);
+
+    List<Book> findByLibraryNotNull();
 }

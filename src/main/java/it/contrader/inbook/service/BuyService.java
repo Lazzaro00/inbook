@@ -29,4 +29,8 @@ public class BuyService extends AbstractService<Buy, BuyDTO>{
     public List<BuyDTO> getByBook_Id(long book_Id){
         return converter.toListDTO(repository.findByBook_Id(book_Id));
     }
+
+    public List<BuyDTO> getAllNotNull(){
+        return converter.toListDTO((repository.findByUserNotNullAndBookNotNull()));
+    }
 }

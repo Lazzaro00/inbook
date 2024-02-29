@@ -39,4 +39,8 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
 
         repository.deleteById(id);
     }
+
+    public List<LibraryDTO> getByAdminsNotNull(){
+        return converter.toListDTO(repository.findByAdminsNotNull());
+    }
 }
