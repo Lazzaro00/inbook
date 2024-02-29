@@ -13,8 +13,12 @@ import java.util.Set;
 public interface UserRepository extends JpaRepository<User,Long> {
 
     public Optional<User> findByEmail(String email);
-    public Long countByRoles(Set<Role> roles);
-    List<User> findByRoles(Set<Role> roles);
+
+    @Query("SELECT COUNT(u) FROM User u JOIN u.roles r WHERE r IN :roles")
+    Long countByRoles(@Param("roles") Set<Role> roles);
+
+    @Query("SELECT u FROM User u JOIN u.roles r WHERE r IN :roles")
+    List<User> findByRoles(@Param("roles") Set<Role> roles);
 
 
 }
