@@ -2,6 +2,7 @@ package it.contrader.inbook.converter;
 
 import it.contrader.inbook.dto.LoggedDTO;
 import it.contrader.inbook.dto.UserDTO;
+import it.contrader.inbook.exception.RoleNotFoundException;
 import it.contrader.inbook.model.Role;
 import it.contrader.inbook.model.User;
 import it.contrader.inbook.repository.RoleRepository;
@@ -26,9 +27,9 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
 
     private String roleToUserType(Set<Role> roles){
         String usertype = null;
-        if(roles.contains(roleRepository.findByRole(Role.ERole.ROLE_ADMIN).orElseThrow(() ->new RuntimeException("Ruolo non trovato")))) {      //(ERole.ROLE_ADMIN.name().equals(((Role)roles.toArray()[0]).getRole().name())) {
+        if(roles.contains(roleRepository.findByRole(Role.ERole.ROLE_ADMIN).orElseThrow(() ->new RoleNotFoundException("Role not found!")))) {      //(ERole.ROLE_ADMIN.name().equals(((Role)roles.toArray()[0]).getRole().name())) {
             usertype = "ADMIN";
-        } else if (roles.contains(roleRepository.findByRole(Role.ERole.ROLE_USER).orElseThrow(() ->new RuntimeException("Ruolo non trovato")))) {
+        } else if (roles.contains(roleRepository.findByRole(Role.ERole.ROLE_USER).orElseThrow(() ->new RoleNotFoundException("Role not found!")))) {
             usertype = "USER";
         }
         return  usertype;

@@ -1,6 +1,7 @@
 package it.contrader.inbook.converter;
 
 
+import it.contrader.inbook.exception.RoleNotFoundException;
 import it.contrader.inbook.model.Role;
 import it.contrader.inbook.repository.RoleRepository;
 import it.contrader.inbook.repository.UserRepository;
@@ -45,7 +46,7 @@ public class AuthService {
         } else {
             Set<Role> roles = new HashSet<>();
             roles.add(roleRepository.findByRole(Role.ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found.")));
+                    .orElseThrow(() -> new RoleNotFoundException("Error: Role is not found.")));
             return roles;
         }
     }

@@ -24,6 +24,7 @@ public class BuyConverter extends AbstractConverter<Buy, BuyDTO> {
                 .user(userConverter.toEntity(buyDTO.getUser()))
                 .book(bookConverter.toEntity(buyDTO.getBook()))
                 .date(buyDTO.getDate())
+                .quantity(buyDTO.getQuantity())
                 .build() : null;
 
     }
@@ -35,6 +36,7 @@ public class BuyConverter extends AbstractConverter<Buy, BuyDTO> {
                 .user(userConverter.toDTO(buy.getUser()))
                 .book(bookConverter.toDTO(buy.getBook()))
                 .date(buy.getDate())
+                .quantity(buy.getQuantity())
                 .build() : null;
     }
 }

@@ -2,6 +2,9 @@ package it.contrader.inbook.service;
 
 import it.contrader.inbook.converter.UserConverter;
 import it.contrader.inbook.dto.*;
+import it.contrader.inbook.exception.EmailAlreadyExistException;
+import it.contrader.inbook.exception.PasswordIncorrectException;
+import it.contrader.inbook.exception.UserNotExistException;
 import it.contrader.inbook.model.Anagraphic;
 import it.contrader.inbook.model.User;
 import it.contrader.inbook.repository.RoleRepository;
@@ -35,11 +38,11 @@ public class UserService extends AbstractService<User, UserDTO>{
 
 
     public LoggedDTO login(LoginDTO loginDTO){
-        User user = userRepository.findByEmail(loginDTO.getEmail()).orElseThrow(() -> new RuntimeException("L'utente non esiste"));
+        User user = userRepository.findByEmail(loginDTO.getEmail()).orElseThrow(() -> new UserNotExistException("User not exist!"));
         if(loginDTO.getPassword().equals(user.getPassword())){
             return userConverter.toLoggedDTO(userConverter.toDTO(user));
         }
-        throw new RuntimeException("La password non è corretta");
+        throw new PasswordIncorrectException("The Password is incorrect!");
     }
 
 
@@ -49,7 +52,7 @@ public class UserService extends AbstractService<User, UserDTO>{
             return userConverter.toLoggedDTO(userConverter.toDTO(userRepository.save(userConverter.toEntity(userDTO))));
         }
         catch (Exception ex){
-            throw new RuntimeException("Email già in uso");
+            throw new EmailAlreadyExistException("Email is already in use!");
         }
 
     }

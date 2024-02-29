@@ -1,6 +1,7 @@
 package it.contrader.inbook.service;
 
 import it.contrader.inbook.converter.Converter;
+import it.contrader.inbook.exception.UserNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +27,7 @@ public abstract class AbstractService<Entity,DTO> implements ServiceDTO<DTO> {
 
     @Override
     public DTO read(Long id){
-        return converter.toDTO(repository.findById(id).get()); //todo inserire eccezione
+        return converter.toDTO(repository.findById(id).orElseThrow(() -> new UserNotExistException("User is not exist!")));
     }
 
     @Override

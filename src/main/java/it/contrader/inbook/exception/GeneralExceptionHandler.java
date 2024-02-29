@@ -8,14 +8,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GeneralExceptionHandler {
 
-    @ExceptionHandler(EmailAlreadyExistException.class)
-    public ResponseEntity<?> EmailAlreadyExist(EmailAlreadyExistException ex){
+    @ExceptionHandler({EmailAlreadyExistException.class, InvalidGenderException.class})
+    public ResponseEntity<?> ConflictException(RuntimeException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(InvalidGenderException.class)
-    public ResponseEntity<?> InvalidGender(InvalidGenderException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    @ExceptionHandler({RoleNotFoundException.class, UserNotExistException.class})
+    public ResponseEntity<?> RoleNotFoundExceptionHandler(RuntimeException ex){
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler
+    public ResponseEntity<?> PasswordIncorrectExceptionHandler(RuntimeException ex){
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.UNAUTHORIZED);
+    }
+
 
 }
