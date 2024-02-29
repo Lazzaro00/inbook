@@ -13,9 +13,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
 import java.security.Key;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -51,8 +51,14 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    public List<String> getRolesFromJwtToke(String jwt) {
-
+    public List<String> getRolesFromJwtToken(String jwt) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key())
+                .build()
+                .parseClaimsJwt(jwt)
+                .getBody();
+        String roles = claims.get("roles", String.class);
+        return roles != null ? Arrays.asList(roles.split(",")) : Collections.emptyList();
     }
 //--------
     public boolean validateJwtToken(String jwt) {
