@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface BuyRepository extends JpaRepository<Buy,Long> {
     public List<Buy> findByUser_IdAndBook_Id(long user_Id, long book_Id);
+
+    public List<Buy> findByUser_Id(long user_Id);
+
+    public List<Buy> findByBook_Id(long book_Id);
 }

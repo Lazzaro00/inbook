@@ -1,17 +1,18 @@
 package it.contrader.inbook.service;
 
 import it.contrader.inbook.converter.UserConverter;
-import it.contrader.inbook.dto.LoggedDTO;
-import it.contrader.inbook.dto.LoginDTO;
-import it.contrader.inbook.dto.UserDTO;
+import it.contrader.inbook.dto.*;
+import it.contrader.inbook.model.Anagraphic;
 import it.contrader.inbook.model.User;
 import it.contrader.inbook.repository.RoleRepository;
 import it.contrader.inbook.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 
 @Service
 public class UserService extends AbstractService<User, UserDTO>{
@@ -21,6 +22,15 @@ public class UserService extends AbstractService<User, UserDTO>{
 
     @Autowired
     private UserConverter userConverter;
+
+    @Autowired
+    private AnagraphicService anagraphicService;
+
+    @Autowired
+    private LibraryService libraryService;
+
+    @Autowired
+    private BuyService buyService;
 
 
 
@@ -42,5 +52,32 @@ public class UserService extends AbstractService<User, UserDTO>{
             throw new RuntimeException("Email già in uso");
         }
 
+    }
+
+    @Override
+    public void delete(Long id){
+        UserDTO uTd = userConverter.toDTO(userRepository.getById(id));
+        AnagraphicDTO aTd = anagraphicService.getByUserId(id);
+        List<LibraryDTO> lTd = libraryService.getByAdmin_Id(id);
+        List<BuyDTO> bTd = buyService.getByUser_Id(id);
+
+        aTd.setUser(null);
+        anagraphicService.save(aTd);
+
+        if (!lTd.isEmpty())
+        for (LibraryDTO l : lTd) {
+          l.getAdmins().remove(uTd);
+          if (l.getAdmins().isEmpty())
+              l.setAdmins(null);
+          libraryService.save(l);
+        }
+
+        if(!bTd.isEmpty())
+        for (BuyDTO b : bTd){
+            b.setUser(null);
+            buyService.save(b);
+        }
+
+        userRepository.deleteById(id);
     }
 }
