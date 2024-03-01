@@ -8,7 +8,18 @@ import it.contrader.inbook.exception.PasswordIncorrectException;
 import it.contrader.inbook.exception.NotExistException;
 import it.contrader.inbook.model.User;
 import it.contrader.inbook.repository.UserRepository;
+import it.contrader.inbook.security.JwtUtils;
+import it.contrader.inbook.security.UserDetailsImpl;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,13 +45,33 @@ public class UserService extends AbstractService<User, UserDTO>{
     @Autowired
     private BuyService buyService;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private PasswordEncoder encoder; //TODO criptazione password
+
+    @Autowired
+    private JwtUtils jwtUtils;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
 
-    public LoggedDTO login(LoginDTO loginDTO){
-        User user = userRepository.findByEmail(loginDTO.getEmail()).orElseThrow(() -> new NotExistException("User not exist!"));
-        if(loginDTO.getPassword().equals(user.getPassword())){
-            return userConverter.toLoggedDTO(userConverter.toDTO(user));
+
+    public LoggedDTO login(LoginDTO loginDTO) {
+        User user = userRepository.findByEmail(loginDTO.getEmail())
+                .orElseThrow(() -> new NotExistException("User not exist!"));
+
+        if (encoder.matches(loginDTO.getPassword(), user.getPassword())) {
+            Authentication authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            String jwt = jwtUtils.generateJwt(userDetails);
+            return userConverter.toLoggedDTO(userConverter.toDTO(user), jwt);
         }
+
         throw new PasswordIncorrectException("The Password is incorrect!");
     }
 
@@ -48,10 +79,23 @@ public class UserService extends AbstractService<User, UserDTO>{
 
     public LoggedDTO registration(UserDTO userDTO){
         try {
-            return userConverter.toLoggedDTO(userConverter.toDTO(userRepository.save(userConverter.toEntity(userDTO))));
+            String password = userDTO.getPassword();
+            userDTO.setPassword(encoder.encode(password));
+            //User newUser =
+                            userRepository.save(userConverter.toEntity(userDTO));
+            Authentication authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), password));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            String jwt = jwtUtils.generateJwt(userDetails);
+
+            return  userConverter.toLoggedDTO(userDTO,jwt);
+        }
+        catch (DataIntegrityViolationException ex){
+            throw new EmailAlreadyExistException("Email is already in use!");
         }
         catch (Exception ex){
-            throw new EmailAlreadyExistException("Email is already in use!");
+            throw new RuntimeException("ERROREE:" + ex.getMessage());
         }
 
     }

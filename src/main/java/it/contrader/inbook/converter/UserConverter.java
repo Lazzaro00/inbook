@@ -56,11 +56,12 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
     }
 
 
-    public LoggedDTO toLoggedDTO(UserDTO userDTO){
+    public LoggedDTO toLoggedDTO(UserDTO userDTO, String jwt){
         return userDTO != null ?
                 LoggedDTO.builder()
                         .email(userDTO.getEmail())
                         .usertype(userDTO.getUsertype())
+                        .jwt(jwt)
                         .build()
                 :null;
     }

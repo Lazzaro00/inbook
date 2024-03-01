@@ -27,7 +27,7 @@ public class JwtUtils {
     @Value("${contrader.app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${contrader.app.jwtExpiration}")
+    @Value("${contrader.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
     @Value("${contrader.app.jwtCookieName}")
@@ -64,6 +64,7 @@ public class JwtUtils {
     public boolean validateJwtToken(String jwt) {
         try {
             Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJwt(jwt);
+            return true;
         } catch (MalformedJwtException e) {
             logger.error("Invalid JWT token: {}", e.getMessage());
         } catch (ExpiredJwtException e) {

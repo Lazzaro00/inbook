@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class LoggedDTO {
     private String email;
     private String usertype;
+    private String jwt;
 }
