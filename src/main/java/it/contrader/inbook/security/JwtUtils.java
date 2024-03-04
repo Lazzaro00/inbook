@@ -4,8 +4,11 @@ package it.contrader.inbook.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import it.contrader.inbook.converter.UserConverter;
+import it.contrader.inbook.model.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -33,6 +36,9 @@ public class JwtUtils {
     @Value("${contrader.app.jwtCookieName}")
     private String jwtCookie;
 
+    @Autowired
+    private UserConverter userConverter;
+
 
     public String getJwtFromHeader(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
@@ -44,7 +50,7 @@ public class JwtUtils {
 //--------
     public String getEmailFromJwtToken(String jwt) {
         return Jwts.parserBuilder().setSigningKey(key()).build()
-                .parseClaimsJwt(jwt).getBody().getSubject();
+                .parseClaimsJws(jwt).getBody().getSubject();
     }
 
     private Key key() {
@@ -63,7 +69,10 @@ public class JwtUtils {
 //--------
     public boolean validateJwtToken(String jwt) {
         try {
-            Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJwt(jwt);
+            JwtParserBuilder j = Jwts.parserBuilder();
+            JwtParserBuilder j1 = j.setSigningKey(key());
+            JwtParser j2 = j1.build();
+            Jwt<?, ?> j3 = (Jwt<?, ?>) j2.parse(jwt);
             return true;
         } catch (MalformedJwtException e) {
             logger.error("Invalid JWT token: {}", e.getMessage());
@@ -71,6 +80,7 @@ public class JwtUtils {
             logger.error("JWT token is expired: {}", e.getMessage());
         } catch (UnsupportedJwtException e) {
             logger.error("JWT token is unsupported: {}", e.getMessage());
+            logger.error("Token: {}", jwt);
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         }

@@ -87,6 +87,7 @@ public class UserService extends AbstractService<User, UserDTO>{
                     .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), password));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
             String jwt = jwtUtils.generateJwt(userDetails);
 
             return  userConverter.toLoggedDTO(userDTO,jwt);

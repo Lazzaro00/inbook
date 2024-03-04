@@ -25,7 +25,7 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
         return authService.createRoles(usertype);
     }
 
-    private String roleToUserType(Set<Role> roles){
+    public String roleToUserType(Set<Role> roles){
         String usertype = null;
         if(roles.contains(roleRepository.findByRole(Role.ERole.ROLE_ADMIN).orElseThrow(() ->new RoleNotFoundException("Role not found!")))) {      //(ERole.ROLE_ADMIN.name().equals(((Role)roles.toArray()[0]).getRole().name())) {
             usertype = "ADMIN";
