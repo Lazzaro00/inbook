@@ -78,13 +78,22 @@ public class JwtUtils {
     }
 
 
-
     public void setRequestJwt(String jwt) {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if(requestAttributes != null){
             requestAttributes.getRequest().getSession().setAttribute("Authorization", "Bearer " + jwt);
         }
     }
+
+    public String getRequestJwt() {
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if(requestAttributes != null){
+            String bearerToken = (String) requestAttributes.getRequest().getSession().getAttribute("Authorization");
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+
 
 
     public String generateJwt(UserDetailsImpl userDetails){

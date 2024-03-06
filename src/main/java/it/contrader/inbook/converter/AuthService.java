@@ -25,22 +25,22 @@ public class AuthService {
             Set<Role> set = new HashSet<>();
                 if (rolesString.equalsIgnoreCase("ADMIN")) {
                     set.add(roleRepository.findByRole(Role.ERole.ROLE_ADMIN)
-                            .orElseGet(() ->{
-                                        Role role1 = new Role();
-                                        role1.setRole(Role.ERole.ROLE_ADMIN);
-                                        roleRepository.save(role1);
-                                        return role1;
-                                    }
-                            ));
+                        .orElseGet(() ->{
+                            Role role1 = new Role();
+                            role1.setRole(Role.ERole.ROLE_ADMIN);
+                            roleRepository.save(role1);
+                            return role1;
+                            }
+                        ));
                 } else {
                     set.add(roleRepository.findByRole(Role.ERole.ROLE_USER)
-                            .orElseGet(() ->{
-                                        Role role1 = new Role();
-                                        role1.setRole(Role.ERole.ROLE_USER);
-                                        roleRepository.save(role1);
-                                        return role1;
-                                    }
-                            ));
+                        .orElseGet(() ->{
+                            Role role1 = new Role();
+                            role1.setRole(Role.ERole.ROLE_USER);
+                            roleRepository.save(role1);
+                            return role1;
+                            }
+                        ));
                 }
             return set;
         } else {

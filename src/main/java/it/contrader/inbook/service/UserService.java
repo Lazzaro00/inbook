@@ -69,7 +69,7 @@ public class UserService extends AbstractService<User, UserDTO>{
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             String jwt = jwtUtils.generateJwt(userDetails);
-            return userConverter.toLoggedDTO(userConverter.toDTO(user), jwt);
+            return userConverter.toLoggedDTO(user);
         }
 
         throw new PasswordIncorrectException("The Password is incorrect!");
@@ -82,14 +82,14 @@ public class UserService extends AbstractService<User, UserDTO>{
             String password = userDTO.getPassword();
             userDTO.setPassword(encoder.encode(password));
             //User newUser =
-                            userRepository.save(userConverter.toEntity(userDTO));
+            userRepository.save(userConverter.toEntity(userDTO));
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), password));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             String jwt = jwtUtils.generateJwt(userDetails);
-
-            return  userConverter.toLoggedDTO(userDTO,jwt);
+            User user = userConverter.toEntity(userDTO);
+            return  userConverter.toLoggedDTO(user);
         }
         catch (DataIntegrityViolationException ex){
             throw new EmailAlreadyExistException("Email is already in use!");

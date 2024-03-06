@@ -6,6 +6,7 @@ import it.contrader.inbook.exception.RoleNotFoundException;
 import it.contrader.inbook.model.Role;
 import it.contrader.inbook.model.User;
 import it.contrader.inbook.repository.RoleRepository;
+import it.contrader.inbook.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,8 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private JwtUtils jwtUtils;
 
     private Set<Role> userTypeToRole(String usertype){
         return authService.createRoles(usertype);
@@ -56,14 +59,25 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
     }
 
 
-    public LoggedDTO toLoggedDTO(UserDTO userDTO, String jwt){
-        return userDTO != null ?
+    public LoggedDTO toLoggedDTO(User user){
+        return user != null ?
                 LoggedDTO.builder()
-                        .email(userDTO.getEmail())
-                        .usertype(userDTO.getUsertype())
-                        .jwt(jwt)
+                        .email(user.getEmail())
+                        .usertype(this.roleToUserType(user.getRoles()))
+                        .jwt(jwtUtils.getRequestJwt())
                         .build()
                 :null;
+    }
+
+    public User toUserDTOfromLogged(LoggedDTO loggedDTO){
+        return loggedDTO != null ?
+            User.builder()
+                    //todo mettere l'id (.id())
+                    .email(loggedDTO.getEmail())
+                    .password(null)
+                    .roles(this.userTypeToRole(loggedDTO.getUsertype()))
+                    .build()
+            :null;
     }
 
 
