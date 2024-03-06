@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GeneralExceptionHandler {
 
-    @ExceptionHandler({EmailAlreadyExistException.class, InvalidGenderException.class})
+    @ExceptionHandler({EmailAlreadyExistException.class, InvalidGenderException.class, YearNotValidException.class})
     public ResponseEntity<?> ConflictException(RuntimeException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }

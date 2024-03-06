@@ -4,6 +4,7 @@ import it.contrader.inbook.converter.AnagraphicConverter;
 import it.contrader.inbook.dto.AnagraphicDTO;
 import it.contrader.inbook.dto.BookDTO;
 import it.contrader.inbook.exception.InvalidGenderException;
+import it.contrader.inbook.exception.YearNotValidException;
 import it.contrader.inbook.model.Anagraphic;
 import it.contrader.inbook.repository.AnagraphicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class AnagraphicService extends AbstractService<Anagraphic, AnagraphicDTO
 
     public Long countByBirthDateStartingFrom(int year){
         if (String.valueOf(year).length() != 4 || year > LocalDate.now().getYear()) {
-            throw new IllegalArgumentException("Anno non valido"); //TODO ECCEZIONE!!!!!
+            throw new YearNotValidException("Anno non valido");
         }
         LocalDate firstDayOfYear = LocalDate.of(year, 1, 1);
         return repository.countByBirthDateStartingFrom(firstDayOfYear);

@@ -49,7 +49,7 @@ public class UserService extends AbstractService<User, UserDTO>{
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private PasswordEncoder encoder; //TODO criptazione password
+    private PasswordEncoder encoder;
 
     @Autowired
     private JwtUtils jwtUtils;

@@ -2,10 +2,12 @@ package it.contrader.inbook.converter;
 
 import it.contrader.inbook.dto.LoggedDTO;
 import it.contrader.inbook.dto.UserDTO;
+import it.contrader.inbook.exception.NotExistException;
 import it.contrader.inbook.exception.RoleNotFoundException;
 import it.contrader.inbook.model.Role;
 import it.contrader.inbook.model.User;
 import it.contrader.inbook.repository.RoleRepository;
+import it.contrader.inbook.repository.UserRepository;
 import it.contrader.inbook.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,9 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
 
     @Autowired
     AuthService authService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -72,7 +77,7 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
     public User toUserDTOfromLogged(LoggedDTO loggedDTO){
         return loggedDTO != null ?
             User.builder()
-                    //todo mettere l'id (.id())
+                    .id(userRepository.findByEmail(loggedDTO.getEmail()).orElseThrow(()-> new NotExistException("Email non esistente")).getId())
                     .email(loggedDTO.getEmail())
                     .password(null)
                     .roles(this.userTypeToRole(loggedDTO.getUsertype()))
