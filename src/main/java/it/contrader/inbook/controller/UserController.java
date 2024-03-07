@@ -7,6 +7,7 @@ import it.contrader.inbook.dto.UserDTO;
 import it.contrader.inbook.service.AnagraphicService;
 import it.contrader.inbook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -36,6 +37,11 @@ public class UserController extends AbstractController<UserDTO>{
     @PostMapping("/registrationAnag")
     public ResponseEntity<AnagraphicDTO> registrationAnag(@RequestBody @Validated AnagraphicDTO AnagraphicDTO){
         return new ResponseEntity<AnagraphicDTO>(anagraphicService.save(AnagraphicDTO), HttpStatus.OK);
+    }
+
+    @GetMapping("getAllPaginata")
+    public ResponseEntity<Page<AnagraphicDTO>> getallpaginata(@RequestParam("pageNumber") int pageNum, @RequestParam("pageSize") int pageSize){
+        return new ResponseEntity<Page<AnagraphicDTO>>(anagraphicService.getallpaginata(pageNum, pageSize), HttpStatus.OK);
     }
 
 

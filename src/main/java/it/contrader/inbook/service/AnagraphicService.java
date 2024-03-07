@@ -5,13 +5,17 @@ import it.contrader.inbook.dto.AnagraphicDTO;
 import it.contrader.inbook.dto.BookDTO;
 import it.contrader.inbook.exception.InvalidGenderException;
 import it.contrader.inbook.model.Anagraphic;
+import it.contrader.inbook.model.Role;
 import it.contrader.inbook.repository.AnagraphicRepository;
+import it.contrader.inbook.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnagraphicService extends AbstractService<Anagraphic, AnagraphicDTO> {
@@ -21,6 +25,9 @@ public class AnagraphicService extends AbstractService<Anagraphic, AnagraphicDTO
 
     @Autowired
     AnagraphicRepository repository;
+
+    @Autowired
+    RoleRepository roleRepository;
 
     public AnagraphicDTO getByUserId(long userId){
         Anagraphic an = repository.findByUser_Id(userId).orElse(null);
@@ -62,5 +69,11 @@ public class AnagraphicService extends AbstractService<Anagraphic, AnagraphicDTO
 
     public List<AnagraphicDTO> getByUserNotNull(){
         return converter.toListDTO(repository.findByUserNotNull());
+    }
+
+    public Page<AnagraphicDTO> getallpaginata(int pageNumber, int pageSize){
+        Optional<Role> role = roleRepository.findByRole(Role.ERole.ROLE_USER);
+        System.out.println(role);
+        return converter.toDTOPage(converter.toListDTO(repository.findByUser_Roles(role)), pageNumber, pageSize);
     }
 }
