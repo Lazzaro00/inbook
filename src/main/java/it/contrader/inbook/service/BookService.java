@@ -43,6 +43,7 @@ public class BookService extends AbstractService<Book, BookDTO> {
         return converter.toListDTO(repository.findByLibrary_Id(library_Id));
     }
 
+    @Override
     public void delete(Long id){
         List<BuyDTO> byTd = buyService.getByBook_Id(id);
 
