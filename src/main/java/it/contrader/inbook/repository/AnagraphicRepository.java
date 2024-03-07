@@ -1,6 +1,7 @@
 package it.contrader.inbook.repository;
 
 import it.contrader.inbook.model.Anagraphic;
+import it.contrader.inbook.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,4 +27,6 @@ public interface AnagraphicRepository extends JpaRepository<Anagraphic,Long> {
     Long countByAddress(String address);
 
     List<Anagraphic> findByUserNotNull();
+
+    List<Anagraphic> findByUser_Roles(Optional<Role> role);
 }
