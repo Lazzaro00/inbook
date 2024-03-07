@@ -69,6 +69,7 @@ public class UserService extends AbstractService<User, UserDTO>{
             SecurityContextHolder.getContext().setAuthentication(authentication);
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             String jwt = jwtUtils.generateJwt(userDetails);
+            jwtUtils.setRequestJwt(jwt);
             return userConverter.toLoggedDTO(user);
         }
 
@@ -89,6 +90,7 @@ public class UserService extends AbstractService<User, UserDTO>{
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
             String jwt = jwtUtils.generateJwt(userDetails);
+            jwtUtils.setRequestJwt(jwt);
             User user = userConverter.toEntity(userDTO);
             return  userConverter.toLoggedDTO(user);
         }
