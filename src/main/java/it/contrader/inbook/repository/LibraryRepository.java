@@ -11,4 +11,5 @@ public interface LibraryRepository extends JpaRepository<Library,Long> {
 
     public List<Library> findByAdminsNotNull();
 
+    public List<Library> findByCity(String city);
 }

@@ -30,5 +30,9 @@ public class LibraryController extends AbstractController<LibraryDTO> {
         return new ResponseEntity<>(libraries, HttpStatus.OK);
     }
 
+    @GetMapping("/getRelatedBook")
+    public ResponseEntity<?> getRelatedBook(@RequestParam("id")Long bookId){
+        return new ResponseEntity<>(libraryService.getRelatedBook(bookId), HttpStatus.OK);
+    }
 
 }
