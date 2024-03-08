@@ -141,4 +141,8 @@ public class UserService extends AbstractService<User, UserDTO>{
     public List<UserDTO> getByUsertype(String usertype){
         return userConverter.toListDTO(userRepository.findByRoles(authService.createRoles(usertype)));
     }
+
+    public UserDTO getByEmail(String email){
+        return userConverter.toDTO(userRepository.findByEmail(email).orElseThrow(()-> new NotExistException("Email doesn't exist")));
+    }
 }

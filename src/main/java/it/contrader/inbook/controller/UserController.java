@@ -39,11 +39,14 @@ public class UserController extends AbstractController<UserDTO>{
         return new ResponseEntity<AnagraphicDTO>(anagraphicService.save(AnagraphicDTO), HttpStatus.OK);
     }
 
-    @GetMapping("getAllPaginata")
+    @GetMapping("/getAllPaginata")
     public ResponseEntity<Page<AnagraphicDTO>> getallpaginata(@RequestParam("pageNumber") int pageNum, @RequestParam("pageSize") int pageSize){
         return new ResponseEntity<Page<AnagraphicDTO>>(anagraphicService.getallpaginata(pageNum, pageSize), HttpStatus.OK);
     }
 
-
+    @GetMapping("/getByEmail")
+    public ResponseEntity<UserDTO> getByEmail(@RequestParam("email") String email){
+        return new ResponseEntity<UserDTO>(userService.getByEmail(email), HttpStatus.OK);
+    }
 
 }
