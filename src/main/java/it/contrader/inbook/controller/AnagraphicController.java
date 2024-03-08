@@ -30,13 +30,14 @@ public class AnagraphicController extends AbstractController<AnagraphicDTO>{
     @Autowired
     AnagraphicRepository repository;
 
-
-    public AnagraphicDTO getByUserId(long userId){
+    @GetMapping("/getByUserId")
+    public AnagraphicDTO getByUserId(@RequestParam("id") Long userId){
         Anagraphic anagraphic = repository.findByUser_Id(userId).orElse(null);
         return anagraphic != null ? converter.toDTO(anagraphic) : null;
     }
 
-    public Long countByBirthDateStartingFrom(int year){
+    @GetMapping("/countByYear")
+    public Long countByBirthDateStartingFrom(@RequestParam("year") int year){
         if (String.valueOf(year).length() != 4 || year > LocalDate.now().getYear()) {
             throw new IllegalArgumentException("Anno non valido");
         }
@@ -44,7 +45,8 @@ public class AnagraphicController extends AbstractController<AnagraphicDTO>{
         return repository.countByBirthDateStartingFrom(firstDayOfYear);
     }
 
-    public Long countByGender(String genderString){
+    @GetMapping("/countByGender")
+    public Long countByGender(@RequestParam("gender") String genderString){
         try {
             Anagraphic.Gender gender = Anagraphic.Gender.valueOf(genderString.toUpperCase());
             return repository.countByGender(gender);
@@ -53,22 +55,27 @@ public class AnagraphicController extends AbstractController<AnagraphicDTO>{
         }
     }
 
-    public Long countByNationality(String nationality){
+    @GetMapping("/countByNationality")
+    public Long countByNationality(@RequestParam("nationality") String nationality){
         return repository.countByNationality(nationality);
     }
 
-    public Long countByProvince(String province){
+    @GetMapping("/countByProvince")
+    public Long countByProvince(@RequestParam("province") String province){
         return repository.countByProvince(province);
     }
 
-    public Long countByCity(String city){
+    @GetMapping("/countByCity")
+    public Long countByCity(@RequestParam("city") String city){
         return repository.countByCity(city);
     }
 
-    public Long countByAddress(String address){
+    @GetMapping("/countByAddress")
+    public Long countByAddress(@RequestParam("address") String address){
         return repository.countByAddress(address);
     }
 
+    @GetMapping("/getByUserNotNull")
     public List<AnagraphicDTO> getByUserNotNull(){
         return converter.toListDTO(repository.findByUserNotNull());
     }
