@@ -88,20 +88,4 @@ public class BookService extends AbstractService<Book, BookDTO> {
         return converter.toListDTO(repository.findByLibraryNotNull());
     }
 
-
-
-    public void deleteByLibrary(Long libraryId){
-        try {
-//        LibraryDTO lTd = converter.toDTO(repository.getById(id));
-            List<BookDTO> bTd = this.getByLibrary(libraryId);
-            if (!bTd.isEmpty())
-                for (BookDTO b : bTd) {
-                    b.setLibrary(null);
-                    this.save(b);
-                }
-        }
-        catch (Exception ex){
-            throw  new NotExistException("Does not exist anymore");
-        }
-    }
 }
