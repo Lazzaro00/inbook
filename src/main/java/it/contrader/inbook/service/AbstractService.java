@@ -37,7 +37,7 @@ public abstract class AbstractService<Entity,DTO> implements ServiceDTO<DTO> {
             return converter.toDTO(repository.save(converter.toEntity(dto)));
         }
         catch(RuntimeException ex){
-            throw new RuntimeException("Error in ssociate element");
+            throw new RuntimeException("Error in associate element in controller");
         }
     }
 

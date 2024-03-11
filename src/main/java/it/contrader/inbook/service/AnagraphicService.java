@@ -2,7 +2,9 @@ package it.contrader.inbook.service;
 
 import it.contrader.inbook.converter.AnagraphicConverter;
 import it.contrader.inbook.dto.AnagraphicDTO;
+import it.contrader.inbook.dto.AnagraphicRegistrationDTO;
 import it.contrader.inbook.dto.BookDTO;
+import it.contrader.inbook.dto.UserDTO;
 import it.contrader.inbook.exception.InvalidGenderException;
 import it.contrader.inbook.exception.YearNotValidException;
 import it.contrader.inbook.model.Anagraphic;
@@ -29,6 +31,10 @@ public class AnagraphicService extends AbstractService<Anagraphic, AnagraphicDTO
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    AnagraphicService anagraphicService;
+
 
     public AnagraphicDTO getByUserId(long userId){
         Anagraphic an = repository.findByUser_Id(userId).orElse(null);

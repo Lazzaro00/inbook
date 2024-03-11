@@ -145,4 +145,22 @@ public class UserService extends AbstractService<User, UserDTO>{
     public UserDTO getByEmail(String email){
         return userConverter.toDTO(userRepository.findByEmail(email).orElseThrow(()-> new NotExistException("Email doesn't exist")));
     }
+
+    public AnagraphicDTO saveAnag(AnagraphicRegistrationDTO anagraphicRegistrationDTO){
+
+
+        LoggedDTO u = this.registration(userConverter.toUserfromSigninDTO(anagraphicRegistrationDTO.getUser()));
+        return anagraphicService.save(AnagraphicDTO.builder()
+                .name(anagraphicRegistrationDTO.getName())
+                .surname(anagraphicRegistrationDTO.getSurname())
+                .birth_date(anagraphicRegistrationDTO.getBirth_date())
+                .gender(anagraphicRegistrationDTO.getGender())
+                .nationality(anagraphicRegistrationDTO.getNationality())
+                .province(anagraphicRegistrationDTO.getProvince())
+                .city(anagraphicRegistrationDTO.getCity())
+                .address(anagraphicRegistrationDTO.getAddress())
+                .user(u)
+                .build());
+
+    }
 }

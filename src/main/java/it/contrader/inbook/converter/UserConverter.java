@@ -1,6 +1,7 @@
 package it.contrader.inbook.converter;
 
 import it.contrader.inbook.dto.LoggedDTO;
+import it.contrader.inbook.dto.SigninDTO;
 import it.contrader.inbook.dto.UserDTO;
 import it.contrader.inbook.exception.NotExistException;
 import it.contrader.inbook.exception.RoleNotFoundException;
@@ -10,6 +11,7 @@ import it.contrader.inbook.repository.RoleRepository;
 import it.contrader.inbook.repository.UserRepository;
 import it.contrader.inbook.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -28,6 +30,9 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
 
     @Autowired
     private JwtUtils jwtUtils;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
     private Set<Role> userTypeToRole(String usertype){
         return authService.createRoles(usertype);
@@ -86,5 +91,24 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
     }
 
 
+    public SigninDTO toSigninDTO(User user){
+        return user != null ?
+                SigninDTO.builder()
+                        .email(user.getEmail())
+                        .usertype(this.roleToUserType(user.getRoles()))
+                        .password(user.getPassword())
+                        .build()
+                :null;
+    }
+
+    public UserDTO toUserfromSigninDTO(SigninDTO signinDTO){
+        return signinDTO != null ?
+                UserDTO.builder()
+                        .email(signinDTO.getEmail())
+                        .password(encoder.encode(signinDTO.getPassword()))
+                        .usertype(signinDTO.getUsertype())
+                        .build()
+                :null;
+    }
 
 }

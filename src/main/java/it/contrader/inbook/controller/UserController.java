@@ -1,9 +1,6 @@
 package it.contrader.inbook.controller;
 
-import it.contrader.inbook.dto.AnagraphicDTO;
-import it.contrader.inbook.dto.LoggedDTO;
-import it.contrader.inbook.dto.LoginDTO;
-import it.contrader.inbook.dto.UserDTO;
+import it.contrader.inbook.dto.*;
 import it.contrader.inbook.service.AnagraphicService;
 import it.contrader.inbook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +32,8 @@ public class UserController extends AbstractController<UserDTO>{
     }
 
     @PostMapping("/registrationAnag")
-    public ResponseEntity<AnagraphicDTO> registrationAnag(@RequestBody @Validated AnagraphicDTO AnagraphicDTO){
-        return new ResponseEntity<AnagraphicDTO>(anagraphicService.save(AnagraphicDTO), HttpStatus.OK);
+    public ResponseEntity<AnagraphicDTO> registrationAnag(@RequestBody @Validated AnagraphicRegistrationDTO anagraphicRegistrationDTO){
+        return new ResponseEntity<AnagraphicDTO>(userService.saveAnag(anagraphicRegistrationDTO), HttpStatus.OK);
     }
 
     @GetMapping("/getAllPaginata")
