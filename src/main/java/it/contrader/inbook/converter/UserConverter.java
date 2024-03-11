@@ -105,7 +105,7 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
         return signinDTO != null ?
                 UserDTO.builder()
                         .email(signinDTO.getEmail())
-                        .password(encoder.encode(signinDTO.getPassword()))
+                        .password(signinDTO.getPassword())
                         .usertype(signinDTO.getUsertype())
                         .build()
                 :null;
