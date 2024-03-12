@@ -1,5 +1,6 @@
 package it.contrader.inbook.controller;
 
+import it.contrader.inbook.dto.BuyDTO;
 import it.contrader.inbook.dto.CartDTO;
 import it.contrader.inbook.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,10 @@ public class CartController extends AbstractController<CartDTO> {
     @GetMapping("/getByUser")
     public ResponseEntity<List<CartDTO>> getByUser(@RequestParam("id")Long id){
         return new ResponseEntity<List<CartDTO>>(cartService.getByUser_Id(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/buy")
+    public ResponseEntity<List<BuyDTO>> buy(@RequestBody List<CartDTO> cartDTOs){
+        return  new ResponseEntity<List<BuyDTO>>(cartService.cartToBuy(cartDTOs), HttpStatus.OK);
     }
 }
