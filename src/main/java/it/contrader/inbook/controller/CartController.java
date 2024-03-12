@@ -30,9 +30,14 @@ public class CartController extends AbstractController<CartDTO> {
         return new ResponseEntity<Boolean>(cartService.isBuyable(cartDTOs), HttpStatus.OK);
     }
 
-    @GetMapping("/getByUser")
+    @GetMapping("/getByUserId")
     public ResponseEntity<List<CartDTO>> getByUser(@RequestParam("id")Long id){
         return new ResponseEntity<List<CartDTO>>(cartService.getByUser_Id(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/getByUser")
+    public ResponseEntity<List<CartDTO>> getByUserMail(@RequestParam("email")String email){
+        return new ResponseEntity<List<CartDTO>>(cartService.getByUser_Email(email), HttpStatus.OK);
     }
 
     @PostMapping("/buy")

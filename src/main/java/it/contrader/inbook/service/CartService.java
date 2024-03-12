@@ -3,6 +3,7 @@ package it.contrader.inbook.service;
 import it.contrader.inbook.converter.CartConverter;
 import it.contrader.inbook.dto.BuyDTO;
 import it.contrader.inbook.dto.CartDTO;
+import it.contrader.inbook.dto.CartInsDTO;
 import it.contrader.inbook.model.Cart;
 import it.contrader.inbook.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,11 @@ public class CartService extends AbstractService<Cart, CartDTO> {
         return cartConverter.toListDTO(cartRepository.findByUser_Id(user_Id));
     }
 
+    public List<CartDTO> getByUser_Email(String user_email){
+        return cartConverter.toListDTO(cartRepository.findByUser_Email(user_email));
+    }
+
+
     public List<BuyDTO> cartToBuy(List<CartDTO> cartDTOs){
         if (cartDTOs != null && !cartDTOs.isEmpty()) {
             if (this.isBuyable(cartDTOs)) {
@@ -94,4 +100,7 @@ public class CartService extends AbstractService<Cart, CartDTO> {
         } else return null;
     }
 
+    public CartDTO save(CartInsDTO cartInsDTO){
+        return super.save(cartConverter.CartInsToCart(cartInsDTO));
+    }
 }

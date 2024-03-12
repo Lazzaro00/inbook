@@ -3,8 +3,11 @@ package it.contrader.inbook.converter;
 import it.contrader.inbook.dto.BuyDTO;
 import it.contrader.inbook.dto.CartDTO;
 import it.contrader.inbook.dto.CartDTO;
+import it.contrader.inbook.dto.CartInsDTO;
 import it.contrader.inbook.model.Cart;
 import it.contrader.inbook.model.Cart;
+import it.contrader.inbook.service.BookService;
+import it.contrader.inbook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,12 +23,17 @@ public class CartConverter extends AbstractConverter<Cart, CartDTO> {
     @Autowired
     UserConverter userConverter;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    BookService bookService;
+
     @Override
     public Cart toEntity(CartDTO cartDTO) {
         return cartDTO != null ? Cart.builder()
                 .id(cartDTO.getId())
                 .user(userConverter.toEntity(cartDTO.getUser()))
-                .book(bookConverter.toEntity(cartDTO.getBook()))
                 .book(bookConverter.toEntity(cartDTO.getBook()))
                 .quantity(cartDTO.getQuantity())
                 .build() : null;
@@ -53,5 +61,13 @@ public class CartConverter extends AbstractConverter<Cart, CartDTO> {
 
     public List<BuyDTO> toBuyDTOList(List<CartDTO> cartDTOList){
         return cartDTOList.stream().map(this::toBuyDTO).collect(Collectors.toList());
+    }
+
+    public CartDTO CartInsToCart(CartInsDTO cartIns){
+        return CartDTO.builder()
+                .user(userService.getByEmail(cartIns.getUserMail()))
+                .book(bookService.read(cartIns.getBookId()))
+                .quantity(cartIns.getQuantity())
+                .build();
     }
 }
