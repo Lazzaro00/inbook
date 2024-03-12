@@ -6,12 +6,13 @@ import it.contrader.inbook.dto.CartDTO;
 import it.contrader.inbook.model.Cart;
 import it.contrader.inbook.model.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Component
 public class CartConverter extends AbstractConverter<Cart, CartDTO> {
     @Autowired
     BookConverter bookConverter;
