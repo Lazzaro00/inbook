@@ -2,13 +2,13 @@ package it.contrader.inbook.controller;
 
 import it.contrader.inbook.dto.BuyDTO;
 import it.contrader.inbook.dto.CartDTO;
+import it.contrader.inbook.dto.CartInsDTO;
 import it.contrader.inbook.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.Access;
 import java.util.List;
 import java.util.Map;
 
@@ -31,17 +31,22 @@ public class CartController extends AbstractController<CartDTO> {
     }
 
     @GetMapping("/getByUserId")
-    public ResponseEntity<List<CartDTO>> getByUser(@RequestParam("id")Long id){
+    public ResponseEntity<List<CartDTO>> getByUser_Id(@RequestParam("id")Long id){
         return new ResponseEntity<List<CartDTO>>(cartService.getByUser_Id(id), HttpStatus.OK);
     }
 
     @GetMapping("/getByUser")
-    public ResponseEntity<List<CartDTO>> getByUserMail(@RequestParam("email")String email){
+    public ResponseEntity<List<CartDTO>> getByUser_Email(@RequestParam("email")String email){
         return new ResponseEntity<List<CartDTO>>(cartService.getByUser_Email(email), HttpStatus.OK);
     }
 
     @PostMapping("/buy")
     public ResponseEntity<List<BuyDTO>> buy(@RequestBody List<CartDTO> cartDTOs){
         return  new ResponseEntity<List<BuyDTO>>(cartService.cartToBuy(cartDTOs), HttpStatus.OK);
+    }
+
+    @PostMapping("/insert")
+    public ResponseEntity<CartDTO> insert(@RequestBody CartInsDTO cartInsDTO){
+        return new ResponseEntity<CartDTO>(cartService.save(cartInsDTO), HttpStatus.OK);
     }
 }

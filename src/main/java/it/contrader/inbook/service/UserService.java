@@ -100,7 +100,6 @@ public class UserService extends AbstractService<User, UserDTO>{
         catch (Exception ex){
             throw new RuntimeException("ERROREE:" + ex.getMessage());
         }
-
     }
 
     @Override
@@ -147,8 +146,6 @@ public class UserService extends AbstractService<User, UserDTO>{
     }
 
     public AnagraphicDTO saveAnag(AnagraphicRegistrationDTO anagraphicRegistrationDTO){
-
-
         LoggedDTO u = this.registration(userConverter.toUserfromSigninDTO(anagraphicRegistrationDTO.getUser()));
         return anagraphicService.save(AnagraphicDTO.builder()
                 .name(anagraphicRegistrationDTO.getName())
@@ -161,6 +158,5 @@ public class UserService extends AbstractService<User, UserDTO>{
                 .address(anagraphicRegistrationDTO.getAddress())
                 .user(u)
                 .build());
-
     }
 }

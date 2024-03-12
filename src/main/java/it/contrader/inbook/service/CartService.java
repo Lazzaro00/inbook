@@ -84,8 +84,7 @@ public class CartService extends AbstractService<Cart, CartDTO> {
         return cartConverter.toListDTO(cartRepository.findByUser_Email(user_email));
     }
 
-
-    public List<BuyDTO> cartToBuy(List<CartDTO> cartDTOs){
+    public List<BuyDTO> cartToBuy(List<CartDTO> cartDTOs)  {
         if (cartDTOs != null && !cartDTOs.isEmpty()) {
             if (this.isBuyable(cartDTOs)) {
                 List<BuyDTO> buys = new ArrayList<>();
@@ -101,6 +100,6 @@ public class CartService extends AbstractService<Cart, CartDTO> {
     }
 
     public CartDTO save(CartInsDTO cartInsDTO){
-        return super.save(cartConverter.CartInsToCart(cartInsDTO));
+        return this.save(cartConverter.CartInsToCart(cartInsDTO));
     }
 }
