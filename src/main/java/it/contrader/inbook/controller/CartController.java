@@ -20,7 +20,7 @@ public class CartController extends AbstractController<CartDTO> {
     @Autowired
     private CartService cartService;
 
-    @PostMapping("/boolBuyable")
+    @PostMapping("/whichBuyable")
     public ResponseEntity<Map<String, List<CartDTO>>> whichBuyable(@RequestBody List<CartDTO> cartDTOs) {
         return new ResponseEntity<Map<String, List<CartDTO>>>(cartService.whichBuyable(cartDTOs), HttpStatus.OK);
     }
