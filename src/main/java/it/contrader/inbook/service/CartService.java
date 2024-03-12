@@ -85,6 +85,9 @@ public class CartService extends AbstractService<Cart, CartDTO> {
                 List<BuyDTO> buys = new ArrayList<>();
                 cartDTOs.stream().peek(cartDTO -> {
                     buys.add(buyService.save(cartConverter.toBuyDTO(cartDTO)));
+                    if (this.read(cartDTO.getId()) != null) {
+                        this.delete(cartDTO.getId());
+                    }
                 });
                 return buys;
             } else return null; //TODO da gestire con un eccezione
