@@ -3,9 +3,11 @@ package it.contrader.inbook.repository;
 import it.contrader.inbook.model.Buy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface BuyRepository extends JpaRepository<Buy,Long> {
     public List<Buy> findByUser_IdAndBook_Id(long user_Id, long book_Id);
 
