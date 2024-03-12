@@ -1,10 +1,16 @@
 package it.contrader.inbook.converter;
 
+import it.contrader.inbook.dto.BuyDTO;
 import it.contrader.inbook.dto.CartDTO;
 import it.contrader.inbook.dto.CartDTO;
 import it.contrader.inbook.model.Cart;
 import it.contrader.inbook.model.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 public class CartConverter extends AbstractConverter<Cart, CartDTO> {
     @Autowired
@@ -33,5 +39,18 @@ public class CartConverter extends AbstractConverter<Cart, CartDTO> {
                 .book(bookConverter.toDTO(cart.getBook()))
                 .quantity(cart.getQuantity())
                 .build() : null;
+    }
+
+    public BuyDTO toBuyDTO(CartDTO cartDTO){
+        return cartDTO != null ? BuyDTO.builder()
+                .user(cartDTO.getUser())
+                .book(cartDTO.getBook())
+                .quantity(cartDTO.getQuantity())
+                .date(LocalDate.now())
+                .build() : null;
+    }
+
+    public List<BuyDTO> toBuyDTOList(List<CartDTO> cartDTOList){
+        return cartDTOList.stream().map(this::toBuyDTO).collect(Collectors.toList());
     }
 }
