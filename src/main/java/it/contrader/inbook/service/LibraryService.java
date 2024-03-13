@@ -24,8 +24,12 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
     @Autowired
     BookService bookService;
 
-    public List<LibraryDTO> getByAdmin_Id(long adminId){
+    public List<LibraryDTO> getByAdmin(long adminId){
         return converter.toListDTO(repository.findByAdmins_Id(adminId));
+    }
+
+    public List<LibraryDTO> getByAdmin(String adminEmail){
+        return converter.toListDTO(repository.findByAdmins_Email(adminEmail));
     }
 
     @Override

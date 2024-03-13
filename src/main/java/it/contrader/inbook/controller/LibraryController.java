@@ -19,9 +19,13 @@ public class LibraryController extends AbstractController<LibraryDTO> {
     private LibraryService libraryService;
 
     @GetMapping("/getByAdminId")
-    public ResponseEntity<List<LibraryDTO>> getByAdminId(@RequestParam("adminId") long adminId) {
-        List<LibraryDTO> libraries = libraryService.getByAdmin_Id(adminId);
-        return new ResponseEntity<>(libraries, HttpStatus.OK);
+    public ResponseEntity<List<LibraryDTO>> getByAdmin(@RequestParam("adminId") long adminId) {
+        return new ResponseEntity<>(libraryService.getByAdmin(adminId), HttpStatus.OK);
+    }
+
+    @GetMapping("/getByAdminEmail")
+    public ResponseEntity<List<LibraryDTO>> getByAdmin(@RequestParam("email") String email){
+        return new ResponseEntity<>(libraryService.getByAdmin(email), HttpStatus.OK);
     }
 
     @GetMapping("/getByAdminsNotNull")

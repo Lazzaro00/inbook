@@ -104,7 +104,7 @@ public class UserService extends AbstractService<User, UserDTO>{
     public void delete(Long id){
         UserDTO uTd = userConverter.toDTO(userRepository.getById(id));
         AnagraphicDTO aTd = anagraphicService.getByUserId(id);
-        List<LibraryDTO> lTd = libraryService.getByAdmin_Id(id);
+        List<LibraryDTO> lTd = libraryService.getByAdmin(id);
         List<BuyDTO> bTd = buyService.getByUser_Id(id);
 
         aTd.setUser(null);
