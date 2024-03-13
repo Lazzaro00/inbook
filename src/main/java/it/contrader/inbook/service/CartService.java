@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService extends AbstractService<Cart, CartDTO> {
@@ -84,14 +85,12 @@ public class CartService extends AbstractService<Cart, CartDTO> {
     public List<BuyDTO> cartToBuy(List<CartDTO> cartDTOs)  {
         if (cartDTOs != null && !cartDTOs.isEmpty()) {
             if (this.isBuyable(cartDTOs)) {
-                List<BuyDTO> buys = new ArrayList<>();
-                cartDTOs.stream().peek(cartDTO -> {
-                    buys.add(buyService.save(cartConverter.toBuyDTO(cartDTO)));
+                return cartDTOs.stream().map(cartDTO -> {
                     if (this.read(cartDTO.getId()) != null) {
                         this.delete(cartDTO.getId());
                     }
-                });
-                return buys;
+                    return buyService.save(cartConverter.toBuyDTO(cartDTO));
+                }).collect(Collectors.toList());
             } else return null; //TODO da gestire con un eccezione
         } else return null;
     }
