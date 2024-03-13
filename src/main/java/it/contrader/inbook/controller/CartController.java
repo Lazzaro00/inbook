@@ -45,7 +45,7 @@ public class CartController extends AbstractController<CartDTO> {
         return  new ResponseEntity<List<BuyDTO>>(cartService.cartToBuy(cartDTOs), HttpStatus.OK);
     }
 
-    @PostMapping("/insert")
+    @PostMapping("/insertCart")
     public ResponseEntity<CartDTO> insert(@RequestBody CartInsDTO cartInsDTO){
         return new ResponseEntity<CartDTO>(cartService.save(cartInsDTO), HttpStatus.OK);
     }
