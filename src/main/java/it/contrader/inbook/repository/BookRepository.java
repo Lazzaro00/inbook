@@ -31,4 +31,5 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     Long countByLibrary_IdAndSerialcode(Long library_Id, String serialcode);
 
     List<Book> findByLibraryNotNull();
+
 }

@@ -114,13 +114,18 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
 
     public PrivateUserDTO toPrivate(UserDTO userDTO){
         return PrivateUserDTO.builder()
+                .id(userDTO.getId())
                 .email(userDTO.getEmail())
                 .usertype(userDTO.getUsertype())
                 .build();
     }
 
     public PrivateUserDTO entityToPrivate(User user){
-        return PrivateUserDTO.builder().email(user.getEmail()).usertype(roleToUserType(user.getRoles())).build();
+        return PrivateUserDTO.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .usertype(roleToUserType(user.getRoles()))
+                .build();
     }
 
     public User privateToEntity(PrivateUserDTO puDTO){
@@ -141,7 +146,11 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
     }
 
     public PrivateUserDTO loggedToPrivate(LoggedDTO loggedDTO){
-        return PrivateUserDTO.builder().email(loggedDTO.getEmail()).usertype(loggedDTO.getUsertype()).build();
+        return PrivateUserDTO.builder()
+                .id(userRepository.findByEmail(loggedDTO.getEmail()).get().getId())
+                .email(loggedDTO.getEmail())
+                .usertype(loggedDTO.getUsertype())
+                .build();
     }
 //
 //    public LoggedDTO privateToLogged(PrivateUserDTO puDTO){
