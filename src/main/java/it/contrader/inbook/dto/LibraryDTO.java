@@ -1,12 +1,10 @@
 package it.contrader.inbook.dto;
 
-import it.contrader.inbook.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
 import java.util.Set;
 
 
@@ -25,6 +23,6 @@ public class LibraryDTO {
     private String city;
     private String description;
 
-    private Set<UserDTO> admins;
+    private Set<PrivateUserDTO> admins;
 
 }

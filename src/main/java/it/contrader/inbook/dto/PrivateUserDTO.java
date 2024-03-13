@@ -1,6 +1,5 @@
 package it.contrader.inbook.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,14 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartDTO {
+public class PrivateUserDTO {
 
-    private Long id;
+    private String email;
 
-    private PrivateUserDTO user;
-
-    private BookDTO book;
-
-    private int quantitySelected;
+    private String usertype;
 
 }

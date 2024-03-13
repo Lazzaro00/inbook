@@ -1,8 +1,6 @@
 package it.contrader.inbook.dto;
 
 
-import it.contrader.inbook.model.Book;
-import it.contrader.inbook.model.User;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -15,7 +13,7 @@ public class BuyDTO {
 
     private Long id;
 
-    private UserDTO user;
+    private PrivateUserDTO user;
 
     private BookDTO book;
 

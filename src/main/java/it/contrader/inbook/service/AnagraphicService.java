@@ -2,8 +2,6 @@ package it.contrader.inbook.service;
 
 import it.contrader.inbook.converter.AnagraphicConverter;
 import it.contrader.inbook.dto.AnagraphicDTO;
-import it.contrader.inbook.dto.AnagraphicRegistrationDTO;
-import it.contrader.inbook.dto.BookDTO;
 import it.contrader.inbook.dto.UserDTO;
 import it.contrader.inbook.exception.InvalidGenderException;
 import it.contrader.inbook.exception.YearNotValidException;
@@ -14,7 +12,6 @@ import it.contrader.inbook.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.util.List;

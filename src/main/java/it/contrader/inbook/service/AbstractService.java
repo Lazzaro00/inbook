@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public abstract class AbstractService<Entity,DTO> implements ServiceDTO<DTO> {
@@ -39,6 +41,11 @@ public abstract class AbstractService<Entity,DTO> implements ServiceDTO<DTO> {
         catch(RuntimeException ex){
             throw new RuntimeException("Error in associate element in controller");
         }
+    }
+
+    @Override
+    public List<DTO> getAll(){
+        return converter.toListDTO(repository.findAll());
     }
 
 

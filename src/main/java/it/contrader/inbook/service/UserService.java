@@ -10,14 +10,12 @@ import it.contrader.inbook.model.User;
 import it.contrader.inbook.repository.UserRepository;
 import it.contrader.inbook.security.JwtUtils;
 import it.contrader.inbook.security.UserDetailsImpl;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -156,7 +154,7 @@ public class UserService extends AbstractService<User, UserDTO>{
                 .province(anagraphicRegistrationDTO.getProvince())
                 .city(anagraphicRegistrationDTO.getCity())
                 .address(anagraphicRegistrationDTO.getAddress())
-                .user(u)
+                .user(userConverter.loggedToPrivate(u))
                 .build());
     }
 }

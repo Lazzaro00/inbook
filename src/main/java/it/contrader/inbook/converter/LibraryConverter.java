@@ -1,13 +1,13 @@
 package it.contrader.inbook.converter;
 
 import it.contrader.inbook.dto.LibraryDTO;
+import it.contrader.inbook.dto.PrivateUserDTO;
 import it.contrader.inbook.dto.UserDTO;
 import it.contrader.inbook.model.Library;
 import it.contrader.inbook.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,21 +17,31 @@ public class LibraryConverter extends AbstractConverter<Library, LibraryDTO> {
     @Autowired
     UserConverter userConverter;
 
-    private Set<UserDTO> userSetEntoDTO(Set<User> users) {
+    private Set<PrivateUserDTO> userSetEntoDTO(Set<User> users) {
         if (users == null)
             return null;
 
         return users.stream()
-                .map(userConverter::toDTO)
+                .map(userConverter::entityToPrivate)
                 .collect(Collectors.toSet());
     }
 
-    private Set<User> userDTOtoEn(Set<UserDTO> userDtos) {
-        if (userDtos == null)
+//    private Set<User> userDTOtoEn(Set<UserDTO> userDtos) {
+//        if (userDtos == null)
+//            return null;
+//
+//        return userDtos.stream()
+//                .map(userConverter::toEntity)
+//                .collect(Collectors.toSet());
+//    }
+
+
+    private Set<User> prUsToEn(Set<PrivateUserDTO> privateUserDTOs){
+        if (privateUserDTOs == null)
             return null;
 
-        return userDtos.stream()
-                .map(userConverter::toEntity)
+        return privateUserDTOs.stream()
+                .map(userConverter::privateToEntity)
                 .collect(Collectors.toSet());
     }
 
@@ -45,15 +55,13 @@ public class LibraryConverter extends AbstractConverter<Library, LibraryDTO> {
                 .description(libraryDTO.getDescription())
                 .nation(libraryDTO.getNation())
                 .province(libraryDTO.getProvince())
-                .admins(userDTOtoEn(libraryDTO.getAdmins()))
+                .admins(prUsToEn(libraryDTO.getAdmins()))
                 .build():null;
 
     }
 
     @Override
     public LibraryDTO toDTO(Library library) {
-
-
         return library!=null? LibraryDTO.builder()
                 .id(library.getId())
                 .name(library.getName())

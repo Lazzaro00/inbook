@@ -29,5 +29,5 @@ public class AnagraphicDTO {
     private String city;
     private String address;
 
-    private LoggedDTO user;
+    private PrivateUserDTO user;
 }

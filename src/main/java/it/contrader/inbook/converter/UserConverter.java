@@ -1,6 +1,7 @@
 package it.contrader.inbook.converter;
 
 import it.contrader.inbook.dto.LoggedDTO;
+import it.contrader.inbook.dto.PrivateUserDTO;
 import it.contrader.inbook.dto.SigninDTO;
 import it.contrader.inbook.dto.UserDTO;
 import it.contrader.inbook.exception.NotExistException;
@@ -110,5 +111,42 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
                         .build()
                 :null;
     }
+
+    public PrivateUserDTO toPrivate(UserDTO userDTO){
+        return PrivateUserDTO.builder()
+                .email(userDTO.getEmail())
+                .usertype(userDTO.getUsertype())
+                .build();
+    }
+
+    public PrivateUserDTO entityToPrivate(User user){
+        return PrivateUserDTO.builder().email(user.getEmail()).usertype(roleToUserType(user.getRoles())).build();
+    }
+
+    public User privateToEntity(PrivateUserDTO puDTO){
+        return User.builder().id(userRepository.findByEmail(puDTO.getEmail()).get().getId())
+                .email(puDTO.getEmail())
+                .password(userRepository.findByEmail(puDTO.getEmail()).get().getPassword())
+                .roles(userTypeToRole(puDTO.getUsertype()))
+                .build();
+    }
+
+    public UserDTO privateToUserDTO(PrivateUserDTO puDTO){
+        return UserDTO.builder()
+                .id(userRepository.findByEmail(puDTO.getEmail()).get().getId())
+                .email(puDTO.getEmail())
+                .password(userRepository.findByEmail(puDTO.getEmail()).get().getPassword())
+                .usertype(puDTO.getUsertype())
+                .build();
+    }
+
+    public PrivateUserDTO loggedToPrivate(LoggedDTO loggedDTO){
+        return PrivateUserDTO.builder().email(loggedDTO.getEmail()).usertype(loggedDTO.getUsertype()).build();
+    }
+//
+//    public LoggedDTO privateToLogged(PrivateUserDTO puDTO){
+//        return LoggedDTO.builder()..build();
+//    }
+
 
 }

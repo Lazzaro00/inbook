@@ -2,9 +2,7 @@ package it.contrader.inbook.converter;
 
 import it.contrader.inbook.dto.BuyDTO;
 import it.contrader.inbook.dto.CartDTO;
-import it.contrader.inbook.dto.CartDTO;
 import it.contrader.inbook.dto.CartInsDTO;
-import it.contrader.inbook.model.Cart;
 import it.contrader.inbook.model.Cart;
 import it.contrader.inbook.service.BookService;
 import it.contrader.inbook.service.UserService;
@@ -33,9 +31,9 @@ public class CartConverter extends AbstractConverter<Cart, CartDTO> {
     public Cart toEntity(CartDTO cartDTO) {
         return cartDTO != null ? Cart.builder()
                 .id(cartDTO.getId())
-                .user(userConverter.toEntity(cartDTO.getUser()))
+                .user(userConverter.privateToEntity(cartDTO.getUser()))
                 .book(bookConverter.toEntity(cartDTO.getBook()))
-                .quantity(cartDTO.getQuantity())
+                .quantity(cartDTO.getQuantitySelected())
                 .build() : null;
 
     }
@@ -44,9 +42,9 @@ public class CartConverter extends AbstractConverter<Cart, CartDTO> {
     public CartDTO toDTO(Cart cart) {
         return cart != null ? CartDTO.builder()
                 .id(cart.getId())
-                .user(userConverter.toDTO(cart.getUser()))
+                .user(userConverter.entityToPrivate(cart.getUser()))
                 .book(bookConverter.toDTO(cart.getBook()))
-                .quantity(cart.getQuantity())
+                .quantitySelected(cart.getQuantity())
                 .build() : null;
     }
 
@@ -54,7 +52,7 @@ public class CartConverter extends AbstractConverter<Cart, CartDTO> {
         return cartDTO != null ? BuyDTO.builder()
                 .user(cartDTO.getUser())
                 .book(cartDTO.getBook())
-                .quantity(cartDTO.getQuantity())
+                .quantity(cartDTO.getQuantitySelected())
                 .date(LocalDate.now())
                 .build() : null;
     }
@@ -65,9 +63,9 @@ public class CartConverter extends AbstractConverter<Cart, CartDTO> {
 
     public CartDTO CartInsToCart(CartInsDTO cartIns){
         return CartDTO.builder()
-                .user(userService.getByEmail(cartIns.getUserMail()))
+                .user(userConverter.toPrivate(userService.getByEmail(cartIns.getUserMail())))
                 .book(bookService.read(cartIns.getBookId()))
-                .quantity(cartIns.getQuantity())
+                .quantitySelected(cartIns.getQuantity())
                 .build();
     }
 }

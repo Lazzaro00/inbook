@@ -9,10 +9,7 @@ import it.contrader.inbook.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CartService extends AbstractService<Cart, CartDTO> {
@@ -41,7 +38,7 @@ public class CartService extends AbstractService<Cart, CartDTO> {
                             .mapToInt(BuyDTO::getQuantity)
                             .sum();
 
-                    if (av < cartDTO.getQuantity()) {
+                    if (av < cartDTO.getQuantitySelected()) {
                         notBuyables.add(cartDTO);
                     } else {
                         buyables.add(cartDTO);
@@ -66,7 +63,7 @@ public class CartService extends AbstractService<Cart, CartDTO> {
                         .mapToInt(BuyDTO::getQuantity)
                         .sum();
 
-                if (av < cartDTO.getQuantity()) {
+                if (av < cartDTO.getQuantitySelected()) {
                     return false;
                 }
             }
@@ -99,7 +96,20 @@ public class CartService extends AbstractService<Cart, CartDTO> {
         } else return null;
     }
 
-    public CartDTO save(CartInsDTO cartInsDTO){
-        return this.save(cartConverter.CartInsToCart(cartInsDTO));
+    public CartDTO save(CartInsDTO cartInsDTO) {
+        CartDTO c = cartConverter.CartInsToCart(cartInsDTO);
+
+        Optional<CartDTO> exCartO = this.getAll().stream()
+                .filter(cart -> cart.equals(c))
+                .findFirst();
+
+        if (exCartO.isPresent()) {
+            CartDTO exCart = exCartO.get();
+            exCart.setQuantitySelected(exCart.getQuantitySelected() + cartInsDTO.getQuantity());
+            return this.save(exCart);
+        } else {
+            return this.save(c);
+        }
     }
+
 }

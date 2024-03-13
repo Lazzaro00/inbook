@@ -35,6 +35,10 @@ public class BookService extends AbstractService<Book, BookDTO> {
         return converter.toListDTO(repository.findByCategory(category));
     }
 
+    public List<String> getCategory(){
+        return null; //TODO!!
+    }
+
     public List<BookDTO> getByPrice(double price) {
         return converter.toListDTO(repository.findByPriceGreaterThan(price));
     }
