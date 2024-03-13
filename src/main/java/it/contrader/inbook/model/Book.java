@@ -20,7 +20,7 @@ public class Book {
     private Long id;
 
     @Lob
-    private List<byte[]> images;
+    private byte[] images;
     private String name;
     private String category;
     private double price;
