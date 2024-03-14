@@ -129,11 +129,7 @@ public class UserConverter extends AbstractConverter<User, UserDTO>{
     }
 
     public User privateToEntity(PrivateUserDTO puDTO){
-        return User.builder().id(userRepository.findByEmail(puDTO.getEmail()).get().getId())
-                .email(puDTO.getEmail())
-                .password(userRepository.findByEmail(puDTO.getEmail()).get().getPassword())
-                .roles(userTypeToRole(puDTO.getUsertype()))
-                .build();
+        return userRepository.findByEmail(puDTO.getEmail()).get();
     }
 
     public UserDTO privateToUserDTO(PrivateUserDTO puDTO){

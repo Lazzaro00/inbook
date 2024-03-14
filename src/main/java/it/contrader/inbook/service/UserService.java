@@ -164,6 +164,8 @@ public class UserService extends AbstractService<User, UserDTO>{
 
         if (lpDTO.getId() == null){
             lpDTO.setPassword(encoder.encode(lpDTO.getPassword()));
+            lpDTO.getAdmins().clear();
+            lpDTO.getAdmins().add(userConverter.toPrivate(getByEmail(lpDTO.getAdmins().iterator().next().getEmail())));
             return libraryService.save(libraryService.toDTO(lpDTO));
         }
 
