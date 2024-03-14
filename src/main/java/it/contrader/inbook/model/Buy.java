@@ -31,5 +31,6 @@ public class Buy {
 
     private int quantity;
     private LocalDate date;
+    private String orderNum;
 
 }

@@ -3,29 +3,39 @@ package it.contrader.inbook.service;
 import it.contrader.inbook.converter.LibraryConverter;
 import it.contrader.inbook.dto.*;
 import it.contrader.inbook.exception.NotExistException;
-import it.contrader.inbook.model.Book;
 import it.contrader.inbook.model.Library;
 import it.contrader.inbook.repository.LibraryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 @Service
 public class LibraryService extends AbstractService<Library, LibraryDTO>{
 
     @Autowired
-    LibraryConverter converter;
+    LibraryConverter libraryConverter;
 
     @Autowired
-    LibraryRepository repository;
+    LibraryRepository libraryRepository;
 
     @Autowired
     BookService bookService;
 
-    public List<LibraryDTO> getByAdmin_Id(long adminId){
-        return converter.toListDTO(repository.findByAdmins_Id(adminId));
+    @Autowired
+    private PasswordEncoder encoder;
+
+
+    public List<LibraryDTO> getByAdmin(long adminId){
+        return libraryConverter.toListDTO(libraryRepository.findByAdmins_Id(adminId));
+    }
+
+    public List<LibraryDTO> getByAdmin(String adminEmail){
+        return libraryConverter.toListDTO(libraryRepository.findByAdmins_Email(adminEmail));
     }
 
     @Override
@@ -40,7 +50,7 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
                     bookService.save(b);
                 }
 
-            repository.deleteById(id);
+            libraryRepository.deleteById(id);
         }
         catch (Exception ex){
             throw  new NotExistException("Does not exist anymore");
@@ -49,11 +59,11 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
     }
 
     public List<LibraryDTO> getByAdminsNotNull(){
-        return converter.toListDTO(repository.findByAdminsNotNull());
+        return libraryConverter.toListDTO(libraryRepository.findByAdminsNotNull());
     }
 
     public List<LibraryDTO> getByCity(String city){
-        return converter.toListDTO(repository.findByCity(city));
+        return libraryConverter.toListDTO(libraryRepository.findByCity(city));
     }
 
     public List<BookDTO> getRelatedBook(Long bookId) {
@@ -87,4 +97,22 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
         return combinedResult;
 
     }
+
+    public LibraryProtectedDTO readProtected(Long id){
+        return libraryConverter.toProtected(libraryRepository.getById(id));
+    }
+
+    public LibraryDTO toDTO(LibraryProtectedDTO lpDTO){
+        return LibraryDTO.builder()
+                .id(lpDTO.getId())
+                .name(lpDTO.getName())
+                .address(lpDTO.getAddress())
+                .city(lpDTO.getCity())
+                .nation(lpDTO.getNation())
+                .province(lpDTO.getProvince())
+                .description(lpDTO.getDescription())
+                .admins(lpDTO.getAdmins())
+                .build();
+    }
+
 }

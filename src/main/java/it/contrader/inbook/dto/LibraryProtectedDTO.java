@@ -1,6 +1,5 @@
-package it.contrader.inbook.model;
+package it.contrader.inbook.dto;
 
-import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,17 +7,14 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-@Entity
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Library {
+public class LibraryProtectedDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String address;
     private String nation;
@@ -26,10 +22,7 @@ public class Library {
     private String city;
     private String description;
 
-    @ManyToMany
-    @JoinTable(name = "admin_library", joinColumns = @JoinColumn(name = "library_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> admins;
-
+    private Set<PrivateUserDTO> admins;
     private String password;
 
 }

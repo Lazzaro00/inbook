@@ -33,8 +33,13 @@ public class AnagraphicService extends AbstractService<Anagraphic, AnagraphicDTO
     AnagraphicService anagraphicService;
 
 
-    public AnagraphicDTO getByUserId(long userId){
+    public AnagraphicDTO getByUser(long userId){
         Anagraphic an = repository.findByUser_Id(userId).orElse(null);
+        return an != null ? converter.toDTO(an) : null;
+    }
+
+    public AnagraphicDTO getByUser(String email){
+        Anagraphic an = repository.findByUser_Email(email).orElse(null);
         return an != null ? converter.toDTO(an) : null;
     }
 

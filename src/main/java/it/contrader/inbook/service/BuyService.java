@@ -33,4 +33,6 @@ public class BuyService extends AbstractService<Buy, BuyDTO>{
     public List<BuyDTO> getAllNotNull(){
         return converter.toListDTO((repository.findByUserNotNullAndBookNotNull()));
     }
+
+
 }
