@@ -9,6 +9,8 @@ import it.contrader.inbook.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -85,14 +87,24 @@ public class CartService extends AbstractService<Cart, CartDTO> {
     public List<BuyDTO> cartToBuy(List<CartDTO> cartDTOs)  {
         if (cartDTOs != null && !cartDTOs.isEmpty()) {
             if (this.isBuyable(cartDTOs)) {
+                LocalDateTime now = LocalDateTime.now();
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
                 return cartDTOs.stream().map(cartDTO -> {
                     if (this.read(cartDTO.getId()) != null) {
                         this.delete(cartDTO.getId());
                     }
-                    return buyService.save(cartConverter.toBuyDTO(cartDTO));
+                    BuyDTO b = cartConverter.toBuyDTO(cartDTO);
+                    String orderNum = b.getUser().getId() + now.format(formatter);
+                    b.setOrderNum(orderNum);
+                    return buyService.save(b);
                 }).collect(Collectors.toList());
-            } else return null; //TODO da gestire con un eccezione
-        } else return null;
+            } else {
+                throw new RuntimeException("Non è possibile effettuare l'acquisto."); //todo eccezione? X2
+            }
+        } else {
+            throw new IllegalArgumentException("La lista del carrello è vuota o nulla."); //come su
+        }
     }
 
     public CartDTO save(CartInsDTO cartInsDTO) {

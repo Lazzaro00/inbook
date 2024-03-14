@@ -1,7 +1,9 @@
 package it.contrader.inbook.controller;
 
 import it.contrader.inbook.dto.LibraryDTO;
+import it.contrader.inbook.dto.LibraryProtectedDTO;
 import it.contrader.inbook.service.LibraryService;
+import it.contrader.inbook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ public class LibraryController extends AbstractController<LibraryDTO> {
 
     @Autowired
     private LibraryService libraryService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/getByAdminId")
     public ResponseEntity<List<LibraryDTO>> getByAdmin(@RequestParam("adminId") long adminId) {
@@ -37,6 +42,11 @@ public class LibraryController extends AbstractController<LibraryDTO> {
     @GetMapping("/getRelatedBook")
     public ResponseEntity<?> getRelatedBook(@RequestParam("id")Long bookId){
         return new ResponseEntity<>(libraryService.getRelatedBook(bookId), HttpStatus.OK);
+    }
+
+    @GetMapping("/registration")
+    public ResponseEntity<LibraryDTO> regist(@RequestBody LibraryProtectedDTO libraryProtectedDTO){
+        return new ResponseEntity<LibraryDTO>(userService.libraryRegist(libraryProtectedDTO), HttpStatus.OK);
     }
 
 }

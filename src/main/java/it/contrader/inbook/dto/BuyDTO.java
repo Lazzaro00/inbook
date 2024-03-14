@@ -19,4 +19,5 @@ public class BuyDTO {
 
     private int quantity;
     private LocalDate date;
+    private String orderNum;
 }

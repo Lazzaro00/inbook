@@ -103,7 +103,7 @@ public class UserService extends AbstractService<User, UserDTO>{
     @Override
     public void delete(Long id){
         UserDTO uTd = userConverter.toDTO(userRepository.getById(id));
-        AnagraphicDTO aTd = anagraphicService.getByUserId(id);
+        AnagraphicDTO aTd = anagraphicService.getByUser(id);
         List<LibraryDTO> lTd = libraryService.getByAdmin(id);
         List<BuyDTO> bTd = buyService.getByUser_Id(id);
 
@@ -157,4 +157,27 @@ public class UserService extends AbstractService<User, UserDTO>{
                 .user(userConverter.loggedToPrivate(u))
                 .build());
     }
+
+    public LibraryDTO libraryRegist(LibraryProtectedDTO lpDTO){
+        if (lpDTO == null)
+            return null;
+
+        if (lpDTO.getId() == null){
+            lpDTO.setPassword(encoder.encode(lpDTO.getPassword()));
+            return libraryService.save(libraryService.toDTO(lpDTO));
+        }
+
+        LibraryDTO libEx = libraryService.read(lpDTO.getId());
+        if (libEx == null){
+            lpDTO.setPassword(encoder.encode(lpDTO.getPassword()));
+            return libraryService.save(libraryService.toDTO(lpDTO));
+        } else {
+            if (encoder.matches(lpDTO.getPassword(), libraryService.readProtected(libEx.getId()).getPassword())){
+                libEx.getAdmins().add(userConverter.toPrivate(getByEmail(lpDTO.getAdmins().iterator().next().getEmail())));
+                return libraryService.save(libEx);
+            }
+        }
+        return null;
+    }
+
 }

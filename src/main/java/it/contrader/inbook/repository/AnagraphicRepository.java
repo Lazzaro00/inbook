@@ -15,6 +15,8 @@ import java.util.Optional;
 public interface AnagraphicRepository extends JpaRepository<Anagraphic,Long> {
     public Optional<Anagraphic> findByUser_Id(long userId);
 
+    public Optional<Anagraphic> findByUser_Email(String email);
+
     @Query("SELECT COUNT(a) FROM Anagraphic a WHERE a.birth_date >= :birthDate")
     Long countByBirthDateStartingFrom(@Param("birthDate") LocalDate birthDate);
 
