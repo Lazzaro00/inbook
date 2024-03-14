@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 public class AbstractController<DTO> implements Controller<DTO>{
 
@@ -45,5 +46,10 @@ public class AbstractController<DTO> implements Controller<DTO>{
     @Override
     public void delete(@RequestParam("id") Long id){
         serviceDTO.delete(id);
+    }
+
+    @GetMapping("/getAllList")
+    public ResponseEntity<List<DTO>> getAllList(){
+        return new ResponseEntity<>(serviceDTO.getAll(), HttpStatus.OK);
     }
 }

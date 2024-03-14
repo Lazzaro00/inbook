@@ -14,4 +14,5 @@ public interface Controller<DTO> {
     public ResponseEntity<DTO> update(DTO dto);
 
     public void delete(Long id);
+
 }
