@@ -79,4 +79,8 @@ public class BookController extends AbstractController<BookDTO> {
     }
 
 
+    @GetMapping("/getAllCategory")
+    public List<String> getAllCategory(){
+        return bookService.getAllCategory();
+    }
 }

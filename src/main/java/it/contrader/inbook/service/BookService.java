@@ -92,4 +92,13 @@ public class BookService extends AbstractService<Book, BookDTO> {
         return converter.toListDTO(repository.findByLibraryNotNull());
     }
 
+    public List<String> getAllCategory() {
+        List<Book> books = repository.findAll();
+        List<String> category = new ArrayList<>();
+        for(Book book:books){
+            if(!category.contains(book.getCategory()))
+                category.add(book.getCategory());
+        }
+        return category;
+    }
 }
