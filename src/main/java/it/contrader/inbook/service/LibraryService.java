@@ -115,4 +115,8 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
                 .build();
     }
 
+    public LibraryDTO save(LibraryProtectedDTO lpDTO){
+        return libraryConverter.toDTO(libraryRepository.save(libraryConverter.toEntity(lpDTO)));
+    }
+
 }

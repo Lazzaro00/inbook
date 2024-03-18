@@ -44,7 +44,7 @@ public class LibraryController extends AbstractController<LibraryDTO> {
         return new ResponseEntity<>(libraryService.getRelatedBook(bookId), HttpStatus.OK);
     }
 
-    @GetMapping("/registration")
+    @PostMapping("/registration")
     public ResponseEntity<LibraryDTO> regist(@RequestBody LibraryProtectedDTO libraryProtectedDTO){
         return new ResponseEntity<LibraryDTO>(userService.libraryRegist(libraryProtectedDTO), HttpStatus.OK);
     }
