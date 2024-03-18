@@ -31,8 +31,8 @@ public class CartConverter extends AbstractConverter<Cart, CartDTO> {
     public Cart toEntity(CartDTO cartDTO) {
         return cartDTO != null ? Cart.builder()
                 .id(cartDTO.getId())
-                .user(userConverter.privateToEntity(cartDTO.getUser()))
-                .book(bookConverter.toEntity(cartDTO.getBook()))
+                .user(cartDTO.getUser()!=null?userConverter.privateToEntity(cartDTO.getUser()):null)
+                .book(cartDTO.getBook()!=null?bookConverter.toEntity(cartDTO.getBook()):null)
                 .quantity(cartDTO.getQuantitySelected())
                 .build() : null;
 
@@ -42,8 +42,8 @@ public class CartConverter extends AbstractConverter<Cart, CartDTO> {
     public CartDTO toDTO(Cart cart) {
         return cart != null ? CartDTO.builder()
                 .id(cart.getId())
-                .user(userConverter.entityToPrivate(cart.getUser()))
-                .book(bookConverter.toDTO(cart.getBook()))
+                .user(cart.getUser()!=null?userConverter.entityToPrivate(cart.getUser()):null)
+                .book(cart.getBook()!=null?bookConverter.toDTO(cart.getBook()):null)
                 .quantitySelected(cart.getQuantity())
                 .build() : null;
     }

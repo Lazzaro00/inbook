@@ -21,8 +21,8 @@ public class BuyConverter extends AbstractConverter<Buy, BuyDTO> {
     public Buy toEntity(BuyDTO buyDTO) {
         return buyDTO != null ? Buy.builder()
                 .id(buyDTO.getId())
-                .user(userConverter.privateToEntity(buyDTO.getUser()))
-                .book(bookConverter.toEntity(buyDTO.getBook()))
+                .user(buyDTO.getUser()!=null?userConverter.privateToEntity(buyDTO.getUser()):null)
+                .book(buyDTO.getBook()!=null?bookConverter.toEntity(buyDTO.getBook()):null)
                 .date(buyDTO.getDate())
                 .quantity(buyDTO.getQuantity())
                 .orderNum(buyDTO.getOrderNum())
@@ -33,8 +33,8 @@ public class BuyConverter extends AbstractConverter<Buy, BuyDTO> {
     public BuyDTO toDTO(Buy buy) {
         return buy != null ? BuyDTO.builder()
                 .id(buy.getId())
-                .user(userConverter.entityToPrivate(buy.getUser()))
-                .book(bookConverter.toDTO(buy.getBook()))
+                .user(buy.getUser()!=null?userConverter.entityToPrivate(buy.getUser()):null)
+                .book(buy.getBook()!=null?bookConverter.toDTO(buy.getBook()):null)
                 .date(buy.getDate())
                 .quantity(buy.getQuantity())
                 .orderNum(buy.getOrderNum())

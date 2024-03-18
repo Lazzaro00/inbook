@@ -76,6 +76,10 @@ public class CartService extends AbstractService<Cart, CartDTO> {
         }
     }
 
+    public List<CartDTO> getByBook_Id(Long id){
+        return cartConverter.toListDTO(cartRepository.findByBook_Id(id));
+    }
+
     public List<CartDTO> getByUser_Id(Long user_Id){
         return cartConverter.toListDTO(cartRepository.findByUser_Id(user_Id));
     }

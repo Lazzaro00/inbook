@@ -55,7 +55,8 @@ public class UserService extends AbstractService<User, UserDTO>{
     @Autowired
     private UserDetailsService userDetailsService;
 
-
+    @Autowired
+    private CartService cartService;
 
     public LoggedDTO login(LoginDTO loginDTO) {
         User user = userRepository.findByEmail(loginDTO.getEmail())
@@ -106,22 +107,31 @@ public class UserService extends AbstractService<User, UserDTO>{
         AnagraphicDTO aTd = anagraphicService.getByUser(id);
         List<LibraryDTO> lTd = libraryService.getByAdmin(id);
         List<BuyDTO> bTd = buyService.getByUser_Id(id);
+        List<CartDTO> cTd = cartService.getByUser_Id(id);
 
         aTd.setUser(null);
         anagraphicService.save(aTd);
 
-        if (!lTd.isEmpty())
-        for (LibraryDTO l : lTd) {
-          l.getAdmins().remove(uTd);
-          if (l.getAdmins().isEmpty())
-              l.setAdmins(null);
-          libraryService.save(l);
+        if (!lTd.isEmpty()) {
+            for (LibraryDTO l : lTd) {
+                l.getAdmins().remove(uTd);
+                if (l.getAdmins().isEmpty()){
+                    l.setAdmins(null);}
+                libraryService.save(l);
+            }
         }
 
-        if(!bTd.isEmpty())
-        for (BuyDTO b : bTd){
-            b.setUser(null);
-            buyService.save(b);
+        if(!bTd.isEmpty()) {
+            for (BuyDTO b : bTd) {
+                b.setUser(null);
+                buyService.save(b);
+            }
+        }
+
+        if(!cTd.isEmpty()){
+            for (CartDTO c : cTd){
+                cartService.delete(c.getId());
+            }
         }
 
         userRepository.deleteById(id);

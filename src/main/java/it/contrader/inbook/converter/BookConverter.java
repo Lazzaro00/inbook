@@ -23,7 +23,7 @@ public class BookConverter extends AbstractConverter<Book, BookDTO> {
                 .quantity(bookDTO.getQuantity())
                 .serialcode(bookDTO.getSerialcode())
                 .price(bookDTO.getPrice())
-                .library(libraryConverter.toEntity(bookDTO.getLibrary()))
+                .library(bookDTO.getLibrary()!=null?libraryConverter.toEntity(bookDTO.getLibrary()):null)
                 .build() : null;
 
     }
@@ -39,7 +39,7 @@ public class BookConverter extends AbstractConverter<Book, BookDTO> {
                 .quantity(book.getQuantity())
                 .serialcode(book.getSerialcode())
                 .price(book.getPrice())
-                .library(libraryConverter.toDTO(book.getLibrary()))
+                .library(book.getLibrary()!=null?libraryConverter.toDTO(book.getLibrary()):null)
                 .build():null;
     }
 }

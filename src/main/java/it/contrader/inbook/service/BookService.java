@@ -4,9 +4,11 @@ import it.contrader.inbook.controller.BookController;
 import it.contrader.inbook.converter.BookConverter;
 import it.contrader.inbook.dto.BookDTO;
 import it.contrader.inbook.dto.BuyDTO;
+import it.contrader.inbook.dto.CartDTO;
 import it.contrader.inbook.dto.LibraryDTO;
 import it.contrader.inbook.exception.NotExistException;
 import it.contrader.inbook.model.Book;
+import it.contrader.inbook.model.Cart;
 import it.contrader.inbook.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,9 @@ public class BookService extends AbstractService<Book, BookDTO> {
 
     @Autowired
     BuyService buyService;
+
+    @Autowired
+    CartService cartService;
 
 
     public List<BookDTO> getByName(String name) {
@@ -54,12 +59,21 @@ public class BookService extends AbstractService<Book, BookDTO> {
     @Override
     public void delete(Long id) {
         List<BuyDTO> byTd = buyService.getByBook_Id(id);
+        List<CartDTO> cTd = cartService.getByBook_Id(id);
 
-        if (!byTd.isEmpty())
+        if (!byTd.isEmpty()) {
             for (BuyDTO b : byTd) {
                 b.setBook(null);
                 buyService.save(b);
             }
+        }
+
+        if (!cTd.isEmpty()){
+            for (CartDTO c : cTd){
+                cartService.delete(c.getId());
+            }
+        }
+
 
         repository.deleteById(id);
     }

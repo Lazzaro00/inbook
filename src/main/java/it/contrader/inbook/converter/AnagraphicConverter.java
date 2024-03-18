@@ -45,7 +45,7 @@ public class AnagraphicConverter extends AbstractConverter<Anagraphic, Anagraphi
                 .province(anagraphicDTO.getProvince())
                 .city(anagraphicDTO.getCity())
                 .address((anagraphicDTO.getAddress()))
-                .user(userConverter.privateToEntity(anagraphicDTO.getUser()))
+                .user(anagraphicDTO.getUser()!=null? userConverter.privateToEntity(anagraphicDTO.getUser()): null)
                 .build(): null;
     }
 
@@ -63,7 +63,7 @@ public class AnagraphicConverter extends AbstractConverter<Anagraphic, Anagraphi
                 .province(anagraphic.getProvince())
                 .city(anagraphic.getCity())
                 .address((anagraphic.getAddress()))
-                .user(userConverter.entityToPrivate(anagraphic.getUser()))
+                .user(anagraphic.getUser()!=null? userConverter.entityToPrivate(anagraphic.getUser()): null)
                 .build(): null;
     }
 }
