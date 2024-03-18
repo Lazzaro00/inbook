@@ -108,10 +108,8 @@ public class CartService extends AbstractService<Cart, CartDTO> {
     }
 
     public CartDTO save(CartInsDTO cartInsDTO) {
-        CartDTO c = cartConverter.CartInsToCart(cartInsDTO);
-
         Optional<CartDTO> exCartO = this.getAll().stream()
-                .filter(cart -> cart.equals(c))
+                .filter(cart -> (cart.getBook().getId().equals(cartInsDTO.getBookId()) && cart.getUser().getEmail().equals(cartInsDTO.getUserMail())))
                 .findFirst();
 
         if (exCartO.isPresent()) {
@@ -119,7 +117,7 @@ public class CartService extends AbstractService<Cart, CartDTO> {
             exCart.setQuantitySelected(exCart.getQuantitySelected() + cartInsDTO.getQuantity());
             return this.save(exCart);
         } else {
-            return this.save(c);
+            return this.save(cartConverter.CartInsToCart(cartInsDTO));
         }
     }
 

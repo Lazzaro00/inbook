@@ -36,7 +36,7 @@ public class AnagraphicController extends AbstractController<AnagraphicDTO> {
     public ResponseEntity<Long> countByBirthDateStartingFrom(@RequestParam("year") int year) {
         if (String.valueOf(year).length() != 4 || year > LocalDate.now().getYear()) {
             throw new YearNotValidException("Anno non valido");
-        }
+        } //todo se presente nel service, questo controllo è ridondante
         return ResponseEntity.ok(anagraphicService.countByBirthDateStartingFrom(year));
     }
 
@@ -45,7 +45,7 @@ public class AnagraphicController extends AbstractController<AnagraphicDTO> {
         try {
             Long count = anagraphicService.countByGender(genderString);
             return ResponseEntity.ok(count);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {  //todo se presente nel service, questo controllo è ridondante
             throw new InvalidGenderException("Valore di genere non valido: " + genderString);
         }
     }
