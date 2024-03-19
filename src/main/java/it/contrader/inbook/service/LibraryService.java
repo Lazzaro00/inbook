@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,9 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
 
     @Autowired
     BookService bookService;
+
+    @Autowired
+    BuyService buyService;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -117,6 +121,24 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
 
     public LibraryDTO save(LibraryProtectedDTO lpDTO){
         return libraryConverter.toDTO(libraryRepository.save(libraryConverter.toEntity(lpDTO)));
+    }
+
+
+    public List<Long> getSales(Long libID){
+        List<Long> sales = new ArrayList<>();
+        LocalDate thirtyDaysAgo = LocalDate.now().minusDays(30);
+
+        for (LocalDate date = LocalDate.now(); !date.isBefore(thirtyDaysAgo); date = date.minusDays(1)) {
+            final LocalDate currentDate = date;
+            Long dailySales = buyService.getAll().stream()
+                    .filter(buyDTO -> buyDTO.getBook().getLibrary().getId().equals(libID))
+                    .filter(buyDTO -> buyDTO.getDate().isEqual(currentDate))
+                    .mapToLong(buyDTO -> buyDTO.getQuantity())
+                    .sum();
+            sales.add(dailySales);
+        }
+
+        return sales;
     }
 
 }

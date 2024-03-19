@@ -49,4 +49,9 @@ public class LibraryController extends AbstractController<LibraryDTO> {
         return new ResponseEntity<LibraryDTO>(userService.libraryRegist(libraryProtectedDTO), HttpStatus.OK);
     }
 
+    @GetMapping("/getSales")
+    public ResponseEntity<List<Long>> getSales(@RequestParam("libraryId") Long libId){
+        return new ResponseEntity<List<Long>>(libraryService.getSales(libId), HttpStatus.OK);
+    }
+
 }
