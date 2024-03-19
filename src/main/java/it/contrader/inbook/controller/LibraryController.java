@@ -1,5 +1,6 @@
 package it.contrader.inbook.controller;
 
+import it.contrader.inbook.dto.BuyDTO;
 import it.contrader.inbook.dto.LibraryDTO;
 import it.contrader.inbook.dto.LibraryProtectedDTO;
 import it.contrader.inbook.service.LibraryService;
@@ -52,6 +53,11 @@ public class LibraryController extends AbstractController<LibraryDTO> {
     @GetMapping("/getSales")
     public ResponseEntity<List<Long>> getSales(@RequestParam("libraryId") Long libId){
         return new ResponseEntity<List<Long>>(libraryService.getSales(libId), HttpStatus.OK);
+    }
+
+    @GetMapping("/getSold")
+    public ResponseEntity<List<BuyDTO>> getSold(@RequestParam("libraryId") Long libraryId){
+        return new ResponseEntity<List<BuyDTO>>(libraryService.getSold(libraryId), HttpStatus.OK);
     }
 
 }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 
 @Service
@@ -139,6 +139,12 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
         }
 
         return sales;
+    }
+
+    public List<BuyDTO> getSold(Long libraryId){
+        return buyService.getAll().stream()
+                .filter(buyDTO -> buyDTO.getBook().getLibrary().getId().equals(libraryId))
+                .collect(Collectors.toList());
     }
 
 }
