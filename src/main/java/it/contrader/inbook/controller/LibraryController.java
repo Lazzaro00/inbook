@@ -60,6 +60,9 @@ public class LibraryController extends AbstractController<LibraryDTO> {
         return new ResponseEntity<List<BuyDTO>>(libraryService.getSold(libraryId), HttpStatus.OK);
     }
 
-
+    @PutMapping("/updateP")
+    public ResponseEntity<LibraryDTO> saveP(@RequestBody LibraryProtectedDTO lpDTO){
+        return new ResponseEntity<LibraryDTO>(libraryService.save(lpDTO), HttpStatus.OK);
+    }
 
 }
