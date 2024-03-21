@@ -2,6 +2,7 @@ package it.contrader.inbook.controller;
 
 import it.contrader.inbook.dto.AnagraphicDTO;
 import it.contrader.inbook.dto.AnagraphicRegistrationDTO;
+import it.contrader.inbook.dto.AnagraphicUpdateDTO;
 import it.contrader.inbook.exception.InvalidGenderException;
 import it.contrader.inbook.exception.YearNotValidException;
 import it.contrader.inbook.service.AnagraphicService;
@@ -85,8 +86,8 @@ public class AnagraphicController extends AbstractController<AnagraphicDTO> {
         return ResponseEntity.ok(anagraphicDTOList);
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody AnagraphicRegistrationDTO arDTO){
-        return new ResponseEntity<>(userService.save(arDTO), HttpStatus.OK) ;
+    @PutMapping("/save")
+    public ResponseEntity<?> save(@RequestBody AnagraphicUpdateDTO auDTO){
+        return new ResponseEntity<>(userService.save(auDTO), HttpStatus.OK) ;
     }
 }

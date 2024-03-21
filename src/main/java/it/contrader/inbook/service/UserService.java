@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -190,26 +191,56 @@ public class UserService extends AbstractService<User, UserDTO>{
         return null;
     }
 
-    public AnagraphicDTO save(AnagraphicRegistrationDTO arDTO){
-        UserDTO uTs = this.read(anagraphicService.read(arDTO.getId()).getUser().getId());
-        uTs.setEmail(arDTO.getUser().getEmail());
-        if (!arDTO.getUser().getPassword().equals("")){
-            uTs.setPassword(encoder.encode(arDTO.getUser().getPassword()));
-        }
-        this.save(uTs);
 
-        return anagraphicService.save(AnagraphicDTO.builder()
-                .name(arDTO.getName())
-                .surname(arDTO.getSurname())
-                .birth_date(arDTO.getBirth_date())
-                .gender(arDTO.getGender())
-                .nationality(arDTO.getNationality())
-                .province(arDTO.getProvince())
-                .city(arDTO.getCity())
-                .address(arDTO.getAddress())
-                .user(userConverter.toPrivate(uTs))
-                .build());
+    public LoggedDTO regenToken(UserDTO userDTO) {
+
+        userRepository.save(userConverter.toEntity(userDTO));
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        String jwt = jwtUtils.generateJwt(userDetails);
+        jwtUtils.setRequestJwt(jwt);
+        User user = userConverter.toEntity(userDTO);
+        return  userConverter.toLoggedDTO(user);
+
 
     }
 
+    public AnagraphicLoggedDTO save(AnagraphicUpdateDTO auDTO) {
+        UserDTO uTs = this.read(auDTO.getUser().getId());
+            uTs.setPassword(auDTO.getUser().getPassword());
+        if (!uTs.getEmail().equals(auDTO.getUser().getEmail())) {
+            uTs.setEmail(auDTO.getUser().getEmail());
+        }
+
+        LoggedDTO l = this.registration(uTs);
+
+       AnagraphicDTO a = anagraphicService.save(AnagraphicDTO.builder()
+                .id(auDTO.getId())
+                .name(auDTO.getName())
+                .surname(auDTO.getSurname())
+                .birth_date(auDTO.getBirth_date())
+                .gender(auDTO.getGender())
+                .nationality(auDTO.getNationality())
+                .province(auDTO.getProvince())
+                .city(auDTO.getCity())
+                .address(auDTO.getAddress())
+                .user(userConverter.loggedToPrivate(l))
+                .build());
+
+        return AnagraphicLoggedDTO.builder()
+                .id(a.getId())
+                .name(a.getName())
+                .surname(a.getSurname())
+                .birth_date(a.getBirth_date())
+                .gender(a.getGender())
+                .nationality(a.getNationality())
+                .province(a.getProvince())
+                .city(a.getCity())
+                .address(a.getAddress())
+                .user(l)
+                .build();
+    }
 }
