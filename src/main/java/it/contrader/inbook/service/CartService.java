@@ -34,7 +34,7 @@ public class CartService extends AbstractService<Cart, CartDTO> {
             List<CartDTO> buyables = new ArrayList<>();
             List<CartDTO> notBuyables = new ArrayList<>();
 
-            cartDTOs.stream().peek(cartDTO -> {
+            cartDTOs.forEach(cartDTO -> {
                     int av = bookService.read(cartDTO.getBook().getId()).getQuantity();
 
                     av -= buyService.getByBook_Id(cartDTO.getBook().getId()).stream()
@@ -99,7 +99,7 @@ public class CartService extends AbstractService<Cart, CartDTO> {
                         this.delete(cartDTO.getId());
                     }
                     BuyDTO b = cartConverter.toBuyDTO(cartDTO);
-                    String orderNum = b.getUser().getId() + now.format(formatter) + "-" + cartDTO.getBook().getLibrary().getId();
+                    String orderNum = b.getUser().getId() + now.format(formatter) + "/" + cartDTO.getBook().getLibrary().getId();
                     b.setOrderNum(orderNum);
                     return buyService.save(b);
                 }).collect(Collectors.toList());

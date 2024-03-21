@@ -136,7 +136,7 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
             Long dailySales = buyService.getAll().stream()
                     .filter(buyDTO -> buyDTO.getOrderNum().split("/")[1].equals(libID.toString()))
                     .filter(buyDTO -> buyDTO.getDate().isEqual(currentDate))
-                    .mapToLong(buyDTO -> buyDTO.getQuantity())
+                    .mapToLong(BuyDTO::getQuantity)
                     .sum();
             sales.add(dailySales);
         }
