@@ -190,4 +190,26 @@ public class UserService extends AbstractService<User, UserDTO>{
         return null;
     }
 
+    public AnagraphicDTO save(AnagraphicRegistrationDTO arDTO){
+        UserDTO uTs = this.read(anagraphicService.read(arDTO.getId()).getUser().getId());
+        uTs.setEmail(arDTO.getUser().getEmail());
+        if (!arDTO.getUser().getPassword().equals("")){
+            uTs.setPassword(encoder.encode(arDTO.getUser().getPassword()));
+        }
+        this.save(uTs);
+
+        return anagraphicService.save(AnagraphicDTO.builder()
+                .name(arDTO.getName())
+                .surname(arDTO.getSurname())
+                .birth_date(arDTO.getBirth_date())
+                .gender(arDTO.getGender())
+                .nationality(arDTO.getNationality())
+                .province(arDTO.getProvince())
+                .city(arDTO.getCity())
+                .address(arDTO.getAddress())
+                .user(userConverter.toPrivate(uTs))
+                .build());
+
+    }
+
 }

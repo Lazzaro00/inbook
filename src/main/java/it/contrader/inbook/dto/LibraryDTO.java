@@ -18,7 +18,7 @@ public class LibraryDTO {
 
     private String name;
     private String address;
-    private String nation;
+    //private String nation;
     private String province;
     private String city;
     private String description;

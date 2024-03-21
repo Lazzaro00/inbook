@@ -99,7 +99,7 @@ public class CartService extends AbstractService<Cart, CartDTO> {
                         this.delete(cartDTO.getId());
                     }
                     BuyDTO b = cartConverter.toBuyDTO(cartDTO);
-                    String orderNum = b.getUser().getId() + now.format(formatter);
+                    String orderNum = b.getUser().getId() + now.format(formatter) + "-" + cartDTO.getBook().getLibrary().getId();
                     b.setOrderNum(orderNum);
                     return buyService.save(b);
                 }).collect(Collectors.toList());

@@ -2,6 +2,7 @@ package it.contrader.inbook.service;
 
 import it.contrader.inbook.converter.AnagraphicConverter;
 import it.contrader.inbook.dto.AnagraphicDTO;
+import it.contrader.inbook.dto.AnagraphicRegistrationDTO;
 import it.contrader.inbook.dto.UserDTO;
 import it.contrader.inbook.exception.InvalidGenderException;
 import it.contrader.inbook.exception.YearNotValidException;

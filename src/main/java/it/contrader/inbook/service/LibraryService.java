@@ -112,7 +112,7 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
                 .name(lpDTO.getName())
                 .address(lpDTO.getAddress())
                 .city(lpDTO.getCity())
-                .nation(lpDTO.getNation())
+                //.nation(lpDTO.getNation())
                 .province(lpDTO.getProvince())
                 .description(lpDTO.getDescription())
                 .admins(lpDTO.getAdmins())
@@ -131,7 +131,7 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
         for (LocalDate date = LocalDate.now(); !date.isBefore(thirtyDaysAgo); date = date.minusDays(1)) {
             final LocalDate currentDate = date;
             Long dailySales = buyService.getAll().stream()
-                    .filter(buyDTO -> buyDTO.getBook().getLibrary().getId().equals(libID))
+                    .filter(buyDTO -> buyDTO.getOrderNum().split("/")[1].equals(libID.toString()))
                     .filter(buyDTO -> buyDTO.getDate().isEqual(currentDate))
                     .mapToLong(buyDTO -> buyDTO.getQuantity())
                     .sum();

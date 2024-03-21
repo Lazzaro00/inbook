@@ -1,9 +1,11 @@
 package it.contrader.inbook.controller;
 
 import it.contrader.inbook.dto.AnagraphicDTO;
+import it.contrader.inbook.dto.AnagraphicRegistrationDTO;
 import it.contrader.inbook.exception.InvalidGenderException;
 import it.contrader.inbook.exception.YearNotValidException;
 import it.contrader.inbook.service.AnagraphicService;
+import it.contrader.inbook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,9 @@ public class AnagraphicController extends AbstractController<AnagraphicDTO> {
 
     @Autowired
     AnagraphicService anagraphicService;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/getByUserId")
     public ResponseEntity<AnagraphicDTO> getByUserId(@RequestParam("id") Long userId) {
@@ -78,5 +83,10 @@ public class AnagraphicController extends AbstractController<AnagraphicDTO> {
     public ResponseEntity<List<AnagraphicDTO>> getByUserNotNull() {
         List<AnagraphicDTO> anagraphicDTOList = anagraphicService.getByUserNotNull();
         return ResponseEntity.ok(anagraphicDTOList);
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<?> save(@RequestBody AnagraphicRegistrationDTO arDTO){
+        return new ResponseEntity<>(userService.save(arDTO), HttpStatus.OK) ;
     }
 }
