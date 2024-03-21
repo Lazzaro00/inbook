@@ -120,6 +120,9 @@ public class LibraryService extends AbstractService<Library, LibraryDTO>{
     }
 
     public LibraryDTO save(LibraryProtectedDTO lpDTO){
+        if (lpDTO.getPassword().equals("")) {
+            lpDTO.setPassword(this.readProtected(lpDTO.getId()).getPassword());
+        }
         return libraryConverter.toDTO(libraryRepository.save(libraryConverter.toEntity(lpDTO)));
     }
 
