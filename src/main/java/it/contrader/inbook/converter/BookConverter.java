@@ -42,4 +42,5 @@ public class BookConverter extends AbstractConverter<Book, BookDTO> {
                 .library(book.getLibrary()!=null?libraryConverter.toDTO(book.getLibrary()):null)
                 .build():null;
     }
+
 }

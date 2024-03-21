@@ -3,6 +3,7 @@ package it.contrader.inbook.controller;
 import it.contrader.inbook.dto.BookDTO;
 import it.contrader.inbook.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,13 @@ public class BookController extends AbstractController<BookDTO> {
     public List<BookDTO> getByLibrary(@RequestParam("libraryId") long libraryId) {
         return bookService.getByLibrary(libraryId);
     }
+
+    @GetMapping("/getByLibraryPageable")
+    public Page<BookDTO> getByLibrary(@RequestParam("libraryId") long libraryId, @RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize) {
+        return bookService.getByLibraryPageable(libraryId, pageNum, pageSize);
+    }
+
+
 
     @GetMapping("/countByCategory")
     public Long countByCategory(@RequestParam("category") String category) {

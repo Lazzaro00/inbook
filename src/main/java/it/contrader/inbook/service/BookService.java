@@ -11,6 +11,7 @@ import it.contrader.inbook.model.Book;
 import it.contrader.inbook.model.Cart;
 import it.contrader.inbook.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -54,6 +55,11 @@ public class BookService extends AbstractService<Book, BookDTO> {
 
     public List<BookDTO> getByLibrary(long library_Id) {
         return converter.toListDTO(repository.findByLibrary_Id(library_Id));
+    }
+
+    public Page<BookDTO> getByLibraryPageable(long library_Id, int pageNumber, int pageSize) {
+        List<BookDTO> listBook = converter.toListDTO(repository.findByLibrary_Id(library_Id));
+        return converter.toDTOPage(listBook, pageNumber, pageSize);
     }
 
     @Override
