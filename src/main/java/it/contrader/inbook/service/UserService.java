@@ -174,7 +174,7 @@ public class UserService extends AbstractService<User, UserDTO>{
             return null;
 
         if (lpDTO.getId() == null){
-            lpDTO.setPassword(encoder.encode(lpDTO.getPassword()));
+            //lpDTO.setPassword(encoder.encode(lpDTO.getPassword()));
             PrivateUserDTO adm = userConverter.toPrivate(getByEmail(lpDTO.getAdmins().iterator().next().getEmail()));
             lpDTO.getAdmins().clear();
             lpDTO.getAdmins().add(adm);
@@ -183,7 +183,9 @@ public class UserService extends AbstractService<User, UserDTO>{
 
         LibraryProtectedDTO libEx = libraryService.readProtected(lpDTO.getId());
         if (libEx != null){
-            if (encoder.matches(lpDTO.getPassword(), libraryService.readProtected(libEx.getId()).getPassword())){
+            String encPass = encoder.encode(lpDTO.getPassword());
+            String passInDB = libEx.getPassword();
+            if (encoder.matches(lpDTO.getPassword(), libEx.getPassword())){
                 libEx.getAdmins().add(userConverter.toPrivate(getByEmail(lpDTO.getAdmins().iterator().next().getEmail())));
                 return libraryService.save(libEx);
             }
