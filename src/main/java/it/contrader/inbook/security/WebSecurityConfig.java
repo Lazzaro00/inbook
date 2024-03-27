@@ -70,7 +70,7 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.antMatchers("/user/login", "/user/registrationAnag", "/library/registration", "/library/getAllList").permitAll()
+                        auth.antMatchers("/user/login", "/user/registrationAnag", "/library/registration", "/library/getAllList", "/retpass/changePass", "/retpass/confirm").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
