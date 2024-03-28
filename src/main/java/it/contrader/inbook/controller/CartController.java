@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/cart")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 public class CartController extends AbstractController<CartDTO> {
 
     @Autowired

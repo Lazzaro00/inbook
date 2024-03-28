@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/library")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 public class LibraryController extends AbstractController<LibraryDTO> {
 
     @Autowired

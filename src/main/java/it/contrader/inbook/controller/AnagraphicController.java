@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/anag")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 public class AnagraphicController extends AbstractController<AnagraphicDTO> {
 
     @Autowired

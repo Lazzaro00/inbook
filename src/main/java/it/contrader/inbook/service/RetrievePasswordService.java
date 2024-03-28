@@ -1,32 +1,19 @@
 package it.contrader.inbook.service;
 
 import it.contrader.inbook.converter.AuthService;
-import it.contrader.inbook.converter.UserConverter;
 import it.contrader.inbook.dto.*;
-import it.contrader.inbook.exception.EmailAlreadyExistException;
-import it.contrader.inbook.exception.PasswordIncorrectException;
 import it.contrader.inbook.exception.NotExistException;
-import it.contrader.inbook.model.User;
-import it.contrader.inbook.repository.UserRepository;
 import it.contrader.inbook.security.JwtUtils;
-import it.contrader.inbook.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.InternetAddress;
 import java.util.Properties;
-
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class RetrievePasswordService {

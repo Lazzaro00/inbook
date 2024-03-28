@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/book")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 public class BookController extends AbstractController<BookDTO> {
 
     @Autowired

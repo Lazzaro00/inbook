@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 public class UserController extends AbstractController<UserDTO>{
 
     @Autowired

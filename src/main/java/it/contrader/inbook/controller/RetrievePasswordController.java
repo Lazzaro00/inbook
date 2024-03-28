@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/retpass")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 public class RetrievePasswordController {
 
 
